@@ -1,29 +1,43 @@
-<template>
-  <div id="mainView" :style="menuStatus">
-    <topBar></topBar>
-  </div>
+<template lang="pug">
+  #mainView(:style="menuStatus")
+    topBar
+    <router-view></router-view>
 </template>
 
 <script>
   import Topbar from './Topbar.vue'
   import {eventBus} from '../main'
+  import WarningPage from './warning/Warning.vue'
+
   export default {
     components: {
-      topBar: Topbar
+      topBar: Topbar,
+      warningPage: WarningPage
     },
     data () {
       return {
-        menuOpen: true
+        menuOpen: true,
+        screenWidth: null
       }
     },
     created () {
+      window.addEventListener('resize', () => {
+      	this.screenWidth = window.innerWidth
+      })
+
+      this.screenWidth = window.innerWidth
+      if (this.screenWidth < 768) {
+        this.menuOpen = false
+      }
+
       eventBus.$on('openMenu', (open) => {
         this.menuOpen = open
       })
+
     },
     computed: {
       menuStatus () {
-        if (this.menuOpen){
+        if (this.menuOpen || (!this.menuOpen && this.screenWidth > 768)){
           return {
             'margin-left': '200px'
           }
@@ -38,11 +52,11 @@
 </script>
 
 <style lang="sass" scoped>
+
   #mainView
     /*width: 100%*/
     overflow-x: hidden
-    height: 100%
-    background-color: #eee;
-    margin-left: 200px;
+    height: 2000px
+    margin-left: 200px
     transition: 0.2s
 </style>
