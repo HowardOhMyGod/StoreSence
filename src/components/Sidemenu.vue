@@ -1,8 +1,8 @@
 <template lang="pug">
-  .sidemenu(:style='menuStatus' class="scrollable")
+  .sidemenu(:style='menuStatus')
     .logo
       img(src="../assets/sidemenu/icon_logo.svg" style="transform: scale(0.6)")
-    .title(v-for='(option, id) in menuOptions')
+    .title(v-for='(option, id) in menuOptions', :class="{selected: select(id)}")
       img.menuIcon(:src="option.icon")
       router-link(tag="p",
       class="optionName" ,
@@ -52,7 +52,7 @@ export default {
       }],
       menuOpen: true,
       screenWidth: null,
-      selected: 0
+      selected: 1
     }
   },
   methods: {
@@ -69,7 +69,13 @@ export default {
     navigate(id) {
       eventBus.navigatePage(this.menuOptions[id].name)
       this.selected = id
-      console.log(this.selected)
+    },
+    select (id) {
+      if (this.selected == id) {
+        return true
+      } else {
+        return false
+      }
     }
   },
   created () {
@@ -117,7 +123,6 @@ export default {
     position: relative
   .sidemenu
     +size($menuWidth, 100%)
-    overflow-y: scroll
     position: fixed
     min-width: 200px
     margin: 0
@@ -130,9 +135,14 @@ export default {
       align-items: center
       justify-content: center
       // padding: 10px
+    .title.selected
+      background-color: #262D3D
+      border-left: solid 5px #EC641D
     .title
       cursor: pointer
       padding-left: 20px
+      margin-right: 0px
+      z-index: 50
       .menuIcon
         +size(18px, 18px)
         bottom: 2px

@@ -27,4 +27,5 @@
     display: flex
     overflow-x: hidden
     user-select: none
+    width: 100%
 </style>

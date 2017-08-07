@@ -30,7 +30,6 @@
       width: 100%
       .warningTypeBar
         display: flex
-
         padding: 10px
         padding-left: 30px
         width: 100%

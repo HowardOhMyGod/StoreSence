@@ -71,6 +71,7 @@ export default {
     width: 100%
     transition: 0.2s width
     background-color: $colorBlue
+    z-index: 100
     *
       margin-bottom: 0px
     .userInfoBlock

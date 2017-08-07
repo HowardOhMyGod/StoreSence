@@ -54,9 +54,9 @@
 <style lang="sass" scoped>
 
   #mainView
-    /*width: 100%*/
     overflow-x: hidden
-    height: 2000px
+    height: 100%
     margin-left: 200px
     transition: 0.2s
+    // position: relative
 </style>
