@@ -4,7 +4,7 @@ import StoreWarn from './components/warning/StoreWarn.vue'
 
 
 export const routes = [
-  {path: '', redirect: {path:'/warning'}},
+  {path: '', redirect: {path:'/warning/store'}},
   {path: '/warning', component: WarnPage, children: [
     {path: 'store', component: StoreWarn}
   ]},
