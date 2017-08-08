@@ -1,7 +1,7 @@
 <template lang="pug">
   .sidemenu(:style='menuStatus')
     .logo
-      img(src="../assets/sidemenu/icon_logo.svg" style="transform: scale(0.6)")
+      img(src="https://firebasestorage.googleapis.com/v0/b/storesense-1a3d1.appspot.com/o/sidemenu%2Ficon_logo.svg?alt=media&token=aec0ec1f-1c70-476f-a496-68f122d61574" style="transform: scale(0.6)")
     .title(v-for='(option, id) in menuOptions', :class="{selected: select(id)}")
       img.menuIcon(:src="option.icon")
       router-link(tag="p",
