@@ -6,7 +6,8 @@ export const areaFilterMixin = {
       selectArea:{
         selectCountry: 0,
         selectCity: 0,
-        selectStore: ''
+        selectDistrict: 0,
+        selectStore: 0
       },
       areaFilters
     }
@@ -16,9 +17,12 @@ export const areaFilterMixin = {
     cityList() {
       return this.areaFilters.countrys[this.selectArea.selectCountry].citys
     },
+    districtList() {
+      return this.cityList[this.selectArea.selectCity].districts
+    },
     // return storeList base on city
     storeList() {
-      return this.areaFilters.countrys[this.selectArea.selectCountry].citys[this.selectArea.selectCity].stores
+      return this.districtList[this.selectArea.selectDistrict].stores
     }
   }
 }

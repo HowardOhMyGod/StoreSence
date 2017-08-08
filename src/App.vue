@@ -17,12 +17,14 @@
 </script>
 
 <style lang="sass">
+  $colorGray: #F4F4F4
   *
     font-family: 微軟正黑體
     // border: solid 1px black
   html, body
     margin: 0
     padding: 0
+    background-color: $colorGray
   .content
     display: flex
     overflow-x: hidden

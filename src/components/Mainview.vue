@@ -52,11 +52,8 @@
 </script>
 
 <style lang="sass" scoped>
-
   #mainView
-    overflow-x: hidden
-    height: 100%
+    // overflow-x: hidden
     margin-left: 200px
     transition: 0.2s
-    // position: relative
 </style>

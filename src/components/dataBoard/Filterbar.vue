@@ -6,9 +6,10 @@
         option(v-for="(country, id) in areaFilters.countrys",:value="id") {{country.name}}
       select#selCity(name="city" v-model="selectArea.selectCity")
         option(v-for="(city, id) in cityList",:value="id") {{city.name}}
-      select#selStore(name="store" v-model="selectArea.selectStore")
-        option(value='' selected) 選擇店家
-        option(v-for="store in storeList" :value="store") {{store}}
+      select#selectDistrict(name="district" v-model="selectArea.selectDistrict")
+        option(v-for="(district, id) in districtList", :value="id") {{district.name}}
+      select#selectStore(name="store", v-model="selectArea.selectStore")
+        option(v-for="(store, id) in storeList", :value="id") {{store}}
     .deviceSelect.selBar
       h4.title 設備選擇
       select

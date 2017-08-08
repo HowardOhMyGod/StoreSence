@@ -26,8 +26,8 @@ export default {
         icon: 'https://firebasestorage.googleapis.com/v0/b/storesense-1a3d1.appspot.com/o/sidemenu%2Ficon_dashboard_off.svg?alt=media&token=2cedae4d-a9d8-446c-a881-df89c038955c'
       }, {
         name: '異常警示',
-        submenu: ['系統偵測',
-        '店員回報'],
+        submenu: ['全部警示',
+        '系統偵測', '店員通報'],
         open: false,
         link: '/warning',
         icon: 'https://firebasestorage.googleapis.com/v0/b/storesense-1a3d1.appspot.com/o/sidemenu%2Ficon_alert_off.svg?alt=media&token=8b36ec71-5b8d-4639-bf4f-a3e526ea01de'

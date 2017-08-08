@@ -21,6 +21,5 @@ export default {
     position: absolute
     width: calc(100% - 200px)
     padding: 20px 50px
-    height: 1200px
 
 </style>
