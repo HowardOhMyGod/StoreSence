@@ -1,7 +1,7 @@
 <template lang="pug">
   .warningPage
     .selectBarBlock
-      .selectBar
+      .selectBar(v-on:mouseover="mouseoverFilterMenu(1)", v-on:mouseleave="mouseoverFilterMenu(0)")
         .warningTypeBar
             h4.warningType(v-for="type in warningTypes") {{ type }}
             .searchBar
@@ -14,6 +14,7 @@
 
 <script>
   import Filterbar from './Filterbar.vue'
+  import {eventBus} from '../../main'
   export default {
     data () {
       return {
@@ -22,8 +23,17 @@
     },
     components: {
       filterBar: Filterbar
+    },
+    methods: {
+      mouseoverFilterMenu (status) {
+        if (status == 1) {
+          eventBus.warningFilterMenu(true)
+        } else {
+          eventBus.warningFilterMenu(false)
+          }
+        }
+      }
     }
-  }
 </script>
 
 <style lang="sass" scoped>
@@ -44,10 +54,14 @@
       height: 200px
       width: 100%
       z-index: 500
+      .selectBar:hover
+        transform: translateY(0px)
       .selectBar
         position: fixed
         top: 55.56px
         width: 100%
+        transition: 0.3s
+        transform: translateY(-90px)
         .warningTypeBar
           display: flex
           padding: 10px 10px

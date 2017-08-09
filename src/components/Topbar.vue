@@ -24,6 +24,7 @@ export default {
       if (this.screenWidth < 768) {
         this.menuOpen = !this.menuOpen
         eventBus.openSidemenu(this.menuOpen)
+        console.log(this.menuOpen)
       }
     }
   },
@@ -71,7 +72,7 @@ export default {
     width: 100%
     transition: 0.2s width
     background-color: $colorBlue
-    z-index: 100
+    z-index: 1000
     *
       margin-bottom: 0px
     .userInfoBlock

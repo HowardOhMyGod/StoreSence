@@ -19,6 +19,9 @@ export const eventBus = new Vue({
     // change topbar page title when navigating
     navigatePage (title) {
       this.$emit('navigate', title)
+    },
+    warningFilterMenu (open) {
+      this.$emit('filterMenu', open)
     }
   }
 })

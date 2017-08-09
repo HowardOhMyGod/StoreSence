@@ -7,7 +7,7 @@ export const areaFilterMixin = {
         selectCountry: 0,
         selectCity: 0,
         selectDistrict: 0,
-        selectStore: 0
+        selectStore: '文德店'
       },
       areaFilters
     }
@@ -16,9 +16,11 @@ export const areaFilterMixin = {
     // return cityList base on country
     cityList() {
       return this.areaFilters.countrys[this.selectArea.selectCountry].citys
+
     },
     districtList() {
       return this.cityList[this.selectArea.selectCity].districts
+
     },
     // return storeList base on city
     storeList() {

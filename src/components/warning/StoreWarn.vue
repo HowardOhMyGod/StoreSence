@@ -1,6 +1,6 @@
 <template lang="pug">
   .storeWarningInfo
-    .container
+    .container(:style="filterMenuStyle")
       .leftBlock
         .row
           .warningListBlock.col-md-12.col-sm-9(v-for="(group, groupId) in groups")
@@ -45,7 +45,8 @@
 </template>
 
 <script>
-import {warningDevice} from '../../data/warningDevice'
+import {warningDevice, warningDeviceTwo} from '../../data/warningDevice'
+import {eventBus} from '../../main'
 export default {
   data() {
     return {
@@ -61,7 +62,8 @@ export default {
       device: {
         cpu: 0,
         ram: 0
-      }
+      },
+      filterMenuStyle: {}
     }
   },
   methods: {
@@ -86,6 +88,21 @@ export default {
       } else {
         return false
       }
+    },
+    loadData() {
+      this.groups =  warningDeviceTwo.groups,
+      this.selectedDev = warningDeviceTwo.groups[0].devices[0]
+    }
+  },
+  watch: {
+    '$route'(to, from) {
+      if(to.params.name == '文德店') {
+        this.groups =  warningDeviceTwo.groups,
+        this.selectedDev = warningDeviceTwo.groups[0].devices[0]
+      } else if (to.params.name == '大湖店') {
+        this.groups =  warningDevice.groups,
+        this.selectedDev = warningDevice.groups[0].devices[0]
+      }
     }
   },
   created () {
@@ -94,8 +111,20 @@ export default {
         cpu: parseInt(Math.random() * 50),
         ram: parseInt(Math.random() * 50)
       }
-      console.log('Time')
     }, 800)
+
+    // listen for filterMenu open or close eventBus
+    eventBus.$on('filterMenu', (open) => {
+      if (open) {
+        this.filterMenuStyle = {
+          'top': '0px'
+        }
+      } else {
+        this.filterMenuStyle = {
+          'top': '-80px'
+        }
+      }
+    })
   }
 }
 </script>
@@ -117,6 +146,9 @@ export default {
       margin: 0px
       width: 100%
       display: flex
+      transition: 0.3s
+      top: -80px
+
       .rightBlock
         position: fixed
         width: 250px
@@ -163,14 +195,16 @@ export default {
               display: flex
               align-items: center
               padding: 10px 15px
-              background-color: $colorYellow
+              background-color: rgba(#262D3D, 0.7)
               i
                 font-size: 20px
                 margin-right: 20px
+                color: white
               h3
                 margin: 0px
                 font-size: 18px
                 font-weight: 600
+                color: white
       .leftBlock
         position: absolute
         width: 70%

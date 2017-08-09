@@ -6,14 +6,11 @@
         select#selCountry(name="country" v-model="selectArea.selectCountry")
           option(v-for="(country, id) in areaFilters.countrys",:value="id") {{country.name}}
         select#selCity(name="city" v-model="selectArea.selectCity")
-          option(value='', selected) 選擇縣市
           option(v-for="(city, id) in cityList",:value="id") {{city.name}}
         select#selectDistrict(name="district" v-model="selectArea.selectDistrict")
-          option(value='', selected) 選擇地區
           option(v-for="(district, id) in districtList", :value="id") {{district.name}}
         select#selectStore(name="store", v-model="selectArea.selectStore")
-          option(value='', selected) 選擇店家
-          option(v-for="(store, id) in storeList", :value="id") {{store}}
+          option(v-for="(store, id) in storeList", :value="store") {{store}}
       hr
       .deviceFilter
         span 設備選擇 :
@@ -31,11 +28,11 @@
       hr
       .downBar
         .repairStatus
-          p 未處理
+          p.notyet 未處理
           p 處理中
           p 已完成
         .areaRoutes
-          p 分店 > 台灣 > 新北市 > 內湖區 > 環山門市
+          p {{currentStorePath}}
 </template>
 
 <script>
@@ -44,7 +41,29 @@ export default {
   mixins: [areaFilterMixin],
   methods: {
     navigatePage() {
-      this.$router.push('/warning/store')
+      this.$router.push(`/warning/store/${this.selectArea.selectStore}`)
+    }
+  },
+  computed: {
+    currentStorePath () {
+      return `分店 > ${this.country} > ${this.city} > ${this.district} > ${this.store}`
+    },
+    country () {
+      return this.areaFilters.countrys[this.selectArea.selectCountry].name
+    },
+    city () {
+      return this.cityList[this.selectArea.selectCity].name
+    },
+    district () {
+      return this.districtList[this.selectArea.selectDistrict].name
+    },
+    store () {
+      if (this.selectArea.selectStore){
+        return this.selectArea.selectStore
+      } else {
+        return ''
+      }
+
     }
   }
 }
@@ -100,18 +119,24 @@ export default {
       margin-bottom: 10px
       #updateBtn
         margin-left: 10px
+        cursor: pointer
         p
-          border: solid 1px black
           padding: 3px 10px
           width: 150px
           text-align: center
           bottom: 5px
+          background-color: #03D04D
+          color: white
+          border-radius: 4px
+        p:hover
+          background-color: rgba(#03D04D, 0.8)
     .downBar
       display: flex
       background-color: #fff
       margin-left: -20px
       margin-right: -20px
       padding-left: 20px
+      box-shadow: 0 3px 2px -2px rgba(black, 0.1)
       .repairStatus, .areaRoutes
         display: flex
         margin-left: 10px
@@ -122,4 +147,12 @@ export default {
       .areaRoutes
         position: absolute
         right: 20px
+      .repairStatus
+        p
+          border-radius: 20px
+          padding: 1px 5px
+        .notyet
+          background-color: #BBBBBB
+          color: white
+          font-weight: 600
 </style>
