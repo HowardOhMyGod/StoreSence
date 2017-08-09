@@ -46,7 +46,7 @@ export default {
   },
   computed: {
     currentStorePath () {
-      return `分店 > ${this.country} > ${this.city} > ${this.district} > ${this.store}`
+      return `分店 > ${this.country} / ${this.city} / ${this.district} / ${this.store}`
     },
     country () {
       return this.areaFilters.countrys[this.selectArea.selectCountry].name

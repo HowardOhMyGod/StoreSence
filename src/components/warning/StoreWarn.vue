@@ -88,20 +88,16 @@ export default {
       } else {
         return false
       }
-    },
-    loadData() {
-      this.groups =  warningDeviceTwo.groups,
-      this.selectedDev = warningDeviceTwo.groups[0].devices[0]
     }
   },
   watch: {
     '$route'(to, from) {
       if(to.params.name == '文德店') {
-        this.groups =  warningDeviceTwo.groups,
-        this.selectedDev = warningDeviceTwo.groups[0].devices[0]
-      } else if (to.params.name == '大湖店') {
         this.groups =  warningDevice.groups,
         this.selectedDev = warningDevice.groups[0].devices[0]
+      } else if (to.params.name == '大湖店') {
+        this.groups =  warningDeviceTwo.groups,
+        this.selectedDev = warningDeviceTwo.groups[0].devices[0]
       }
     }
   },
@@ -230,7 +226,7 @@ export default {
                 font-size: 20px
                 font-weight: 600
             .warningDevice.selected
-              box-shadow: 0px 0px 10px rgba(black, 0.4)
+              box-shadow: 0px 0px 5px rgba(black, 0.7)
             .warningDevice
               display: flex
               padding: 10px 10px

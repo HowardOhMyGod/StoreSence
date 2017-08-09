@@ -11,7 +11,7 @@ export const warningDevice = {
         }, {
             manageStat: '-1',
             occurTime: '2017-3-20 10:05',
-            errorType: 'IO異常',
+            errorType: 'I/O 異常',
             deviceName: 'UPOS-212',
             deviceType: 'UPOS',
             group: '1'
@@ -77,7 +77,7 @@ export const warningDeviceTwo = {
       }, {
           manageStat: '-1',
           occurTime: '2017-3-20 10:05',
-          errorType: 'IO異常',
+          errorType: 'I/O 異常',
           deviceName: 'UPOS-212',
           deviceType: 'UPOS',
           group: '1'
