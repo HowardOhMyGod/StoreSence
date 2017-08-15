@@ -28,8 +28,8 @@
             .bodyBar
               .deviceInfo
                 h4 設備資訊 - {{selectedDev.errorType}}
-                p CPU使用率: {{device.cpu}} %
-                p 記憶體使用率: {{device.ram}} %
+                p CPU使用率: {{deviceMonitor.cpu}} %
+                p 記憶體使用率: {{deviceMonitor.ram}} %
               .control
                 h4 遠端操作
                 .power
@@ -46,24 +46,28 @@
 
 <script>
 import {warningDevice, warningDeviceTwo} from '../../data/warningDevice'
+import {storeOneSysterm, storeOneClerk} from '../../data/warningDevice'
 import {eventBus} from '../../main'
+
 export default {
   data() {
     return {
       fields: ['處理狀態', '發生時間', '異常類別', '設備名稱', '設備類型'],
       powerActions: ['開機', '重開機', '關機'],
       remoteActions: ['遠端桌面', '遠端CMD'],
+      originGroups: warningDevice.groups,
       groups: warningDevice.groups,
       selectedDev: warningDevice.groups[0].devices[0],
       selectedId: {
         groupId: 0,
         deviceId: 0
       },
-      device: {
+      deviceMonitor: {
         cpu: 0,
         ram: 0
       },
-      filterMenuStyle: {}
+      filterMenuStyle: {},
+      sourceType: null
     }
   },
   methods: {
@@ -92,18 +96,32 @@ export default {
   },
   watch: {
     '$route'(to, from) {
+      this.sourceType == null
+
       if(to.params.name == '文德店') {
-        this.groups =  warningDevice.groups,
-        this.selectedDev = warningDevice.groups[0].devices[0]
+        this.groups =  warningDevice.groups
+        this.originGroups = warningDevice.groups
+        this.selectedDev = this.groups[0].devices[0]
       } else if (to.params.name == '大湖店') {
-        this.groups =  warningDeviceTwo.groups,
-        this.selectedDev = warningDeviceTwo.groups[0].devices[0]
+        this.groups =  warningDeviceTwo.groups
+        this.originGroups = warningDeviceTwo.groups
+        this.selectedDev = this.groups[0].devices[0]
+      }
+    },
+    sourceType () {
+      console.log('change')
+      if (this.sourceType == null) {
+        this.groups = this.originGroups
+      } else if (this.sourceType == 'systerm') {
+        this.groups = storeOneSysterm.groups
+      } else if (this.sourceType == 'clerk') {
+        this.groups = storeOneClerk.groups
       }
     }
   },
   created () {
     setInterval(() => {
-      this.device = {
+      this.deviceMonitor = {
         cpu: parseInt(Math.random() * 50),
         ram: parseInt(Math.random() * 50)
       }
@@ -117,9 +135,14 @@ export default {
         }
       } else {
         this.filterMenuStyle = {
-          'top': '-80px'
+          'top': '-90px'
         }
       }
+    })
+    // listen for change source type from warning Type bar
+    eventBus.$on('selectWarnSourceType', (type) => {
+      this.sourceType = type
+      console.log(this.sourceType)
     })
   }
 }
@@ -143,8 +166,7 @@ export default {
       width: 100%
       display: flex
       transition: 0.3s
-      top: -80px
-
+      top: -90px
       .rightBlock
         position: fixed
         width: 250px

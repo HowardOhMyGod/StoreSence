@@ -1,5 +1,5 @@
 <template lang="pug">
-  .filterBarBlock
+  .filterBarBlock(:class="{open: filterBarBlockOpen}")
     .filterBar
       .areaFilter
         span 分店選擇 :
@@ -11,6 +11,8 @@
           option(v-for="(district, id) in districtList", :value="id") {{district.name}}
         select#selectStore(name="store", v-model="selectArea.selectStore")
           option(v-for="(store, id) in storeList", :value="store") {{store}}
+        span#updateBtn
+          p(@click="navigatePage()") 更新資訊
       hr
       .deviceFilter
         span 設備選擇 :
@@ -23,8 +25,6 @@
         span 異常類別 :
         select
           option(value='' selected) 全部異常
-        span#updateBtn
-          p(@click="navigatePage()") 更新資訊
       hr
       .downBar
         .repairStatus
@@ -36,9 +36,15 @@
 </template>
 
 <script>
+import {eventBus} from '../../main'
 import {areaFilterMixin} from '../../mixin/areaFilter'
 export default {
   mixins: [areaFilterMixin],
+  data () {
+    return {
+      filterBarBlockOpen: null
+    }
+  },
   methods: {
     navigatePage() {
       this.$router.push(`/warning/store/${this.selectArea.selectStore}`)
@@ -65,6 +71,11 @@ export default {
       }
 
     }
+  },
+  created () {
+    eventBus.$on('filterMenu', (open) => {
+      this.filterBarBlockOpen = open
+    })
   }
 }
 </script>
@@ -79,8 +90,11 @@ export default {
     margin: 0px -20px
   .filterBarBlock
     height: 96px
-    z-index: 1000
     background-color: $colorWhite
+    transform: translateY(-100px)
+    transition: 0.3s
+  .filterBarBlock.open
+    transform: translateY(0px)
   .filterBar
     padding: 10px 20px
     position: absolute
@@ -102,6 +116,19 @@ export default {
         font-weight: 600
     .areaFilter
       padding-bottom: 10px
+      #updateBtn
+        margin-left: 10px
+        cursor: pointer
+        p
+          padding: 3px 10px
+          width: 150px
+          text-align: center
+          bottom: 5px
+          background-color: #03D04D
+          color: white
+          border-radius: 4px
+        p:hover
+          background-color: rgba(#03D04D, 0.8)
     .searchBar
       padding: 3px 10px
       border: solid 1px black
@@ -117,19 +144,6 @@ export default {
     .deviceFilter
       margin-top: 10px
       margin-bottom: 10px
-      #updateBtn
-        margin-left: 10px
-        cursor: pointer
-        p
-          padding: 3px 10px
-          width: 150px
-          text-align: center
-          bottom: 5px
-          background-color: #03D04D
-          color: white
-          border-radius: 4px
-        p:hover
-          background-color: rgba(#03D04D, 0.8)
     .downBar
       display: flex
       background-color: #fff
@@ -145,8 +159,8 @@ export default {
           margin-right: 10px
           font-size: 14px
       .areaRoutes
-        position: absolute
-        right: 20px
+        font-weight: 700
+        top: 1px
       .repairStatus
         p
           border-radius: 20px

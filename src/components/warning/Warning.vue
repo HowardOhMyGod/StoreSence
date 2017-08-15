@@ -3,13 +3,15 @@
     .selectBarBlock
       .selectBar(v-on:mouseover="mouseoverFilterMenu(1)", v-on:mouseleave="mouseoverFilterMenu(0)")
         .warningTypeBar
-            h4.warningType(v-for="type in warningTypes") {{ type }}
+            h4.warningType(v-for="type in warningTypes",
+            @click="selectWarnType(type, id)",
+            :class="{selec: warnTypeSelClass(id)}") {{ type }}
             .searchBar
               i(class="fa fa-search" aria-hidden="true" )
               input(type="text" placeholder="收尋")#searchStore
         hr
         filterBar
-    <router-view></router-view>
+    router-view
 </template>
 
 <script>
@@ -18,18 +20,37 @@
   export default {
     data () {
       return {
-        warningTypes: ['全部警示', '系統偵測', '店員通報']
+        warningTypes: ['全部警示', '系統偵測', '店員通報'],
+        warningTypeSelected: ''
       }
     },
     components: {
       filterBar: Filterbar
     },
     methods: {
-      mouseoverFilterMenu (status) {
-        if (status == 1) {
-          eventBus.warningFilterMenu(true)
-        } else {
-          eventBus.warningFilterMenu(false)
+        mouseoverFilterMenu (status) {
+          if (status == 1) {
+            eventBus.warningFilterMenu(true)
+          } else {
+            eventBus.warningFilterMenu(false)
+            }
+        },
+        selectWarnType(type, id) {
+          if (type == '全部警示'){
+            eventBus.selectWarnSourceType(null)
+          } else if (type == '系統偵測'){
+            eventBus.selectWarnSourceType('systerm')
+          } else if (type == '店員通報'){
+            eventBus.selectWarnSourceType('clerk')
+          }
+
+          this.warningTypeSelected = id
+        },
+        warnTypeSelClass (id) {
+          if (this.warningTypeSelected == id) {
+            return true
+          } else {
+            return false
           }
         }
       }
@@ -61,13 +82,15 @@
         top: 55.56px
         width: 100%
         transition: 0.3s
-        transform: translateY(-90px)
+        height: 80px
+        // transform: translateY(-135px)
         .warningTypeBar
           display: flex
           padding: 10px 10px
           padding-left: 30px
           width: 100%
           background-color: $colorWhite
+          z-index: 1000
           .searchBar
             margin: 0px
             border: solid 1px black
@@ -86,11 +109,15 @@
               vertical-align: top
               border: none
           .warningType
-            width: 100px
+            // border: solid 1px black
             margin: 0px
             font-weight: 700
-            // border: solid 1px black
-            height: 20px
+            height: 25px
+            cursor: pointer
+            margin-right: 20px
+            // padding-bottom: 10px
+          .warningType.selec
+            border-bottom: solid 2px #EC641D
 
 
 </style>

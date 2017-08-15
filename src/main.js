@@ -20,8 +20,13 @@ export const eventBus = new Vue({
     navigatePage (title) {
       this.$emit('navigate', title)
     },
+    // open warningPage filter when hover
     warningFilterMenu (open) {
       this.$emit('filterMenu', open)
+    },
+    // change sourceType
+    selectWarnSourceType(type) {
+      this.$emit('selectWarnSourceType', type)
     }
   }
 })
