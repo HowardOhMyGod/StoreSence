@@ -5,12 +5,13 @@
     #pageName
       p {{pageTitle}}
   .userInfoBlock
-    p 何智誠
+    p(@click="shutdown") 何智誠
     i.fa.fa-caret-down(aria-hidden='true')
 </template>
 
 <script>
 import {eventBus} from '../main'
+import {RMM, restartReq} from '../data/rmmConfig.js'
 export default {
   data () {
     return {
@@ -26,6 +27,13 @@ export default {
         eventBus.openSidemenu(this.menuOpen)
         console.log(this.menuOpen)
       }
+    },
+    shutdown() {
+      restartReq.request.item[0]['@value'] = '0000000BAB9863D6'
+      this.$http.post(`${RMM.domain}/PowerMgmt`, restartReq, {headers: RMM.header})
+        .then((res) => {
+          console.log(res)
+        })
     }
   },
   created () {
