@@ -25,6 +25,7 @@
     margin: 0
     padding: 0
     background-color: $colorGray
+    overflow-x: hidden
   .content
     display: flex
     overflow-x: hidden

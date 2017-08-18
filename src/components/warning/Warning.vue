@@ -1,50 +1,36 @@
 <template lang="pug">
   .warningPage
     .selectBarBlock
-      .selectBar(v-on:mouseover="mouseoverFilterMenu(1)", v-on:mouseleave="mouseoverFilterMenu(0)")
+      .selectBar
         .warningTypeBar
-            h4.warningType(v-for="type in warningTypes",
+            h4.warningType(v-for="(type,id) in warningTypes",
             @click="selectWarnType(type, id)",
             :class="{selec: warnTypeSelClass(id)}") {{ type }}
             .searchBar
               i(class="fa fa-search" aria-hidden="true" )
               input(type="text" placeholder="收尋")#searchStore
         hr
-        filterBar
     router-view
 </template>
 
 <script>
-  import Filterbar from './Filterbar.vue'
   import {eventBus} from '../../main'
   export default {
     data () {
       return {
-        warningTypes: ['全部警示', '系統偵測', '店員通報'],
+        warningTypes: ['設備類型', '異常類別'],
         warningTypeSelected: ''
       }
     },
-    components: {
-      filterBar: Filterbar
-    },
     methods: {
-        mouseoverFilterMenu (status) {
-          if (status == 1) {
-            eventBus.warningFilterMenu(true)
-          } else {
-            eventBus.warningFilterMenu(false)
-            }
-        },
         selectWarnType(type, id) {
-          if (type == '全部警示'){
-            eventBus.selectWarnSourceType(null)
-          } else if (type == '系統偵測'){
-            eventBus.selectWarnSourceType('systerm')
-          } else if (type == '店員通報'){
-            eventBus.selectWarnSourceType('clerk')
+          if (type == '設備類型'){
+            this.$router.push({path: '/warning/device'})
+          } else if (type == '異常類別'){
+            this.$router.push({path: '/warning/warnMsg/all'})
           }
-
           this.warningTypeSelected = id
+
         },
         warnTypeSelClass (id) {
           if (this.warningTypeSelected == id) {
@@ -74,23 +60,20 @@
     .selectBarBlock
       height: 200px
       width: 100%
-      z-index: 500
-      .selectBar:hover
-        transform: translateY(0px)
       .selectBar
         position: fixed
-        top: 55.56px
+        top: 55px
         width: 100%
         transition: 0.3s
-        height: 80px
+        height: 40px
+        z-index: 1000
         // transform: translateY(-135px)
         .warningTypeBar
           display: flex
-          padding: 10px 10px
+          padding: 10px 0px
           padding-left: 30px
           width: 100%
           background-color: $colorWhite
-          z-index: 1000
           .searchBar
             margin: 0px
             border: solid 1px black
@@ -109,15 +92,14 @@
               vertical-align: top
               border: none
           .warningType
-            // border: solid 1px black
             margin: 0px
             font-weight: 700
             height: 25px
             cursor: pointer
             margin-right: 20px
-            // padding-bottom: 10px
           .warningType.selec
-            border-bottom: solid 2px #EC641D
+            border-bottom: solid 2px #2EA6E2
+            color: #2EA6E2
 
 
 </style>

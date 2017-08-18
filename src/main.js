@@ -21,14 +21,6 @@ export const eventBus = new Vue({
     // change topbar page title when navigating
     navigatePage (title) {
       this.$emit('navigate', title)
-    },
-    // open warningPage filter when hover
-    warningFilterMenu (open) {
-      this.$emit('filterMenu', open)
-    },
-    // change sourceType
-    selectWarnSourceType(type) {
-      this.$emit('selectWarnSourceType', type)
     }
   }
 })

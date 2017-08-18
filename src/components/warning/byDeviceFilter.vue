@@ -14,18 +14,6 @@
         span#updateBtn
           p(@click="navigatePage()") 更新資訊
       hr
-      .deviceFilter
-        span 設備選擇 :
-        select(name="deviceType")
-          option(value='' selected) 設備類型
-        select
-          option(value='' selected) 設備型號
-        select
-          option(value='' selected) 設備名稱
-        span 異常類別 :
-        select
-          option(value='' selected) 全部異常
-      hr
       .downBar
         .repairStatus
           p.notyet 未處理
@@ -89,17 +77,18 @@ export default {
     padding: 0px
     margin: 0px -20px
   .filterBarBlock
-    height: 96px
+    height: 90px
     background-color: $colorWhite
-    transform: translateY(-100px)
+    transform: translateY(-130px)
     transition: 0.3s
-  .filterBarBlock.open
-    transform: translateY(0px)
+    z-index: 500
+    width: 100%
+    position: fixed
   .filterBar
     padding: 10px 20px
     position: absolute
-    width: calc(100% - 200px)
-    .areaFilter, .deviceFilter
+    width: 100%
+    .areaFilter
       display: flex
       padding-left: 10px
       select
@@ -141,9 +130,6 @@ export default {
         vertical-align: top
         border: none
         text-shadow: none
-    .deviceFilter
-      margin-top: 10px
-      margin-bottom: 10px
     .downBar
       display: flex
       background-color: #fff

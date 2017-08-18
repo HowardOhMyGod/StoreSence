@@ -1,5 +1,6 @@
 <template lang="pug">
   .storeWarningInfo
+    filterBar
     .container(:style="filterMenuStyle")
       .leftBlock
         .row
@@ -15,44 +16,47 @@
               @click="selectedDevice(groupId, deviceId)", :class="{selected: selectedStyle(groupId, deviceId)}")
                 .status.data
                   p {{manageStat(device.manageStat)}}
-                .occurTime.data {{device.occurTime}}
+                .location.data 內湖門市
+                .deviceType.data {{device.deviceModel}}
                 .warnType.data {{device.errorType}}
-                .deviceName.data {{device.deviceName}}
-                .deviceType.data {{device.deviceType}}
-      .rightBlock
-        .row
-          .deviceDetailInfo.col-md-12
-            .headBar
-              i(class="fa fa-arrow-right")
-              h3 {{selectedDev.deviceName}}
-            .bodyBar
-              .deviceInfo
-                h4 設備資訊 - {{selectedDev.errorType}}
-                p CPU使用率: {{deviceMonitor.cpu}} %
-                p 記憶體使用率: {{deviceMonitor.ram}} %
-              .control
-                h4 遠端操作
-                .power
-                  h5 電源管理
-                  select
-                    option(value='' v-for="power in powerActions") {{power}}
-                .remote
-                  h5 遠端控制
-                  select
-                    option(:value='remote' v-for="remote in remoteActions") {{remote}}
-              .detailMonitor
-                p 進入設備監控
+                .sourceType.data {{device.sourceType}}
+                .occurTime.data {{device.occurTime}}
+                .finishTime.data 2017-3-20 10:05
+                .staff.data 何智誠
+    .detailBlock(:class="{open: detailOpen}")
+      .head
+        i(class="fa fa-arrow-right", @click="detailOpen = false")
+        h4 {{selectedDev.deviceModel}}
+      .body
+        .deviceInfo
+          h4 設備資訊
+          p 設備類別 : {{selectedDev.deviceType}}
+          p 設備型號 : {{selectedDev.deviceModel}}
+          p 設備名稱 : {{selectedDev.deviceName}}
+          p CPU使用率 : 20%
+          p RAM使用率 : 30%
+        .remoteControl
+          h4 遠端操作
+          .powerActions
+            p 電源管理
+            select
+              option(v-for="option in powerActions") {{option}}
+          .remoteActions
+            p 遠端控制
+            select
+              option(v-for="option in remoteActions") {{option}}
+        .deviceMonitor 進入設備監控
 </template>
 
 <script>
 import {warningDevice, warningDeviceTwo} from '../../data/warningDevice'
 import {storeOneSysterm, storeOneClerk} from '../../data/warningDevice'
 import {eventBus} from '../../main'
-
+import FilterBar from './byDeviceFilter.vue'
 export default {
   data() {
     return {
-      fields: ['處理狀態', '發生時間', '異常類別', '設備名稱', '設備類型'],
+      fields: ['處理狀態', '所在位置', '設備型號', '異常類別','通報類型', '發生時間',' 完成時間', '處理人員'],
       powerActions: ['開機', '重開機', '關機'],
       remoteActions: ['遠端桌面', '遠端CMD'],
       originGroups: warningDevice.groups,
@@ -67,8 +71,12 @@ export default {
         ram: 0
       },
       filterMenuStyle: {},
-      sourceType: null
+      sourceType: null,
+      detailOpen: false
     }
+  },
+  components: {
+    filterBar: FilterBar
   },
   methods: {
     manageStat(stat) {
@@ -84,6 +92,7 @@ export default {
       this.selectedDev = this.groups[groupId].devices[deviceId]
       this.selectedId.deviceId = deviceId
       this.selectedId.groupId = groupId
+      this.detailOpen = true
     },
     selectedStyle(groupId, deviceId) {
       if((deviceId == this.selectedId.deviceId) &&
@@ -91,31 +100,6 @@ export default {
         return true
       } else {
         return false
-      }
-    }
-  },
-  watch: {
-    '$route'(to, from) {
-      this.sourceType == null
-
-      if(to.params.name == '文德店') {
-        this.groups =  warningDevice.groups
-        this.originGroups = warningDevice.groups
-        this.selectedDev = this.groups[0].devices[0]
-      } else if (to.params.name == '大湖店') {
-        this.groups =  warningDeviceTwo.groups
-        this.originGroups = warningDeviceTwo.groups
-        this.selectedDev = this.groups[0].devices[0]
-      }
-    },
-    sourceType () {
-      console.log('change')
-      if (this.sourceType == null) {
-        this.groups = this.originGroups
-      } else if (this.sourceType == 'systerm') {
-        this.groups = storeOneSysterm.groups
-      } else if (this.sourceType == 'clerk') {
-        this.groups = storeOneClerk.groups
       }
     }
   },
@@ -127,18 +111,6 @@ export default {
       }
     }, 800)
 
-    // listen for filterMenu open or close eventBus
-    eventBus.$on('filterMenu', (open) => {
-      if (open) {
-        this.filterMenuStyle = {
-          'top': '0px'
-        }
-      } else {
-        this.filterMenuStyle = {
-          'top': '-90px'
-        }
-      }
-    })
     // listen for change source type from warning Type bar
     eventBus.$on('selectWarnSourceType', (type) => {
       this.sourceType = type
@@ -153,6 +125,7 @@ export default {
   $colorWhite: #fff
   $colorRed: #CC031C
   $colorYellow: #FFA60A
+  $colorLightBlue: #2DB9F6
   *
     // border: solid 1px black
     position: relative
@@ -161,71 +134,77 @@ export default {
     width: calc(100%)
     top: 30px
     z-index: 0
+    .detailBlock.open
+      transform: translateX(0px)
+      transition: 0.2s
+    .detailBlock
+      position: fixed
+      width: 230px
+      height: 92vh
+      background-color: #eee
+      right: 0px
+      top: 193px
+      z-index: 1000
+      background-color: $colorWhite
+      box-shadow: 0px 0px 3px rgba(black, 0.6)
+      transition: 0.2s
+      transform: translateX(250px)
+      .head
+        display: flex
+        padding: 10px 10px
+        background-color: $colorYellow
+        color: $colorWhite
+        i
+          height: 18px
+          font-size: 20px
+          vertical-align: top
+          cursor: pointer
+        h4
+          vertical-align: top
+          margin: 0px
+          margin-left: 20px
+          font-weight: 600
+      .body
+        padding: 10px 20px
+        .deviceInfo, .remoteControl
+          h4
+            margin: 0px
+            margin-top: 10px
+            padding-bottom: 10px
+            border-bottom: solid black 1px
+            font-weight: 600
+        .deviceInfo
+          p
+            margin: 0px
+            margin-top: 6px
+        .deviceMonitor
+          text-align: center
+          margin-top: 20px
+          padding: 2px 0px
+          border: solid 1px black
+        .remoteControl
+          margin-top: 15px
+          .powerActions, .remoteActions
+            margin: 0px
+            margin-top: 6px
+            select
+              width: 100%
+            p
+              font-weight: 600
+              margin-bottom: 5px
+              font-size: 16px
+
+
     .container
       margin: 0px
+      padding: 0px
       width: 100%
       display: flex
       transition: 0.3s
-      top: -90px
-      .rightBlock
-        position: fixed
-        width: 250px
-        right: 5%
-        .row
-          .deviceDetailInfo
-            padding: 0px
-            padding-bottom: 10px
-            margin-top: 10px
-            background-color: $colorWhite
-            box-shadow: 0px 0px 8px rgba(black, 0.1)
-            .bodyBar
-              padding: 0px 30px
-              margin-top: 20px
-              .deviceInfo
-                h4
-                  font-weight: 600
-                  font-size: 20px
-                  padding-bottom: 10px
-                  border-bottom: solid 1px black
-                p
-                  letter-spacing: 1px
-              .detailMonitor
-                margin-top: 10px
-                p
-                  font-size: 18px
-                  border: solid 1px black
-                  text-align: center
-              .control
-                margin-top: 20px
-                h4
-                  font-weight: 600
-                  font-size: 20px
-                  padding-bottom: 10px
-                  border-bottom: solid 1px black
-                .power, .remote
-                  h5
-                    font-size: 18px
-                  select
-                    width: 100%
-                    height: 30px
-
-            .headBar
-              display: flex
-              align-items: center
-              padding: 10px 15px
-              background-color: rgba(#262D3D, 0.7)
-              i
-                font-size: 20px
-                margin-right: 20px
-                color: white
-              h3
-                margin: 0px
-                font-size: 18px
-                font-weight: 600
-                color: white
+      top: -40px
       .leftBlock
         position: absolute
-        width: 70%
+        width: 100%
         background-color: grey
         .row
           background-color: $colorGray
@@ -234,15 +213,16 @@ export default {
             right: 2%
             width: 300px
             height: 100vh
-
           .warningListBlock
-            padding: 10px 60px
-            .floor, .fields, .warningDevice
+            padding: 10px 35px
+            margin-bottom: -20px
+            .fields, .warningDevice
               background-color: $colorWhite
               margin-bottom: 5px
               box-shadow: 0px 0px 6px rgba(black, 0.1)
             .floor
-              padding: 10px 15px
+              padding: 10px 10px
+              margin-bottom: 5px
               h3
                 margin: 0px
                 font-size: 20px
@@ -255,7 +235,7 @@ export default {
               &:hover
                 cursor: pointer
               .data
-                width: 160px
+                width: 130px
                 margin: 0px
               .status
                 p
@@ -267,17 +247,20 @@ export default {
                   border-radius: 4px
                   color: $colorWhite
             .warningListTable
+              // border: solid 2px black
+              padding: 10px 15px
+              // background-color: $colorWhite
               .fields
                 display: flex
                 padding: 5px 10px
                 background-color: $colorWhite
                 .fieldName
                   display: flex
-                  width: 160px
+                  width: 130px
                   align-items: center
                   font-weight: 600
                   p
                     letter-spacing: 2px
-                    margin-right: 20px
+                    margin-right: 10px
                     top: 5px
 </style>

@@ -1,21 +1,34 @@
 import WarnPage from './components/warning/Warning.vue'
 import DataBoard from './components/dataBoard/DataBoard.vue'
-import StoreWarn from './components/warning/StoreWarn.vue'
+import byDevice from './components/warning/byDevice.vue'
+import byWarn from './components/warning/byWarn.vue'
+import warnMsgAll from './components/warning/byWarnMsgContent/WarnAll.vue'
+import warnMsgDetail from './components/warning/byWarnMsgContent/warnMsgDetail.vue'
 
 
 export const routes = [{
         path: '',
         redirect: {
-            path: '/warning/store'
+            path: '/warning/device'
         }
     },
     {
         path: '/warning',
         component: WarnPage,
-        redirect: {path: '/warning/store/文德店'},
+        redirect: {path: '/warning/device'},
         children: [{
-            path: 'store/:name',
-            component: StoreWarn
+            path: 'device',
+            component: byDevice
+        },{
+            path: 'warnMsg',
+            component: byWarn,
+            children: [{
+              path: 'all',
+              component: warnMsgAll
+            },{
+              path: ':type/:device',
+              component: warnMsgDetail
+            }]
         }]
     },
     {
@@ -25,7 +38,7 @@ export const routes = [{
     {
         path: '*',
         redirect: {
-            path: '/warning/store/文德店'
+            path: '/warning/device'
         }
     }
 ]

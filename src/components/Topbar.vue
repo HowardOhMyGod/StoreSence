@@ -11,8 +11,9 @@
 
 <script>
 import {eventBus} from '../main'
-import {RMM, restartReq} from '../data/rmmConfig.js'
+import {restartMixin} from '../mixin/restartMixin'
 export default {
+  mixins: [restartMixin],
   data () {
     return {
       menuOpen: true,
@@ -27,13 +28,6 @@ export default {
         eventBus.openSidemenu(this.menuOpen)
         console.log(this.menuOpen)
       }
-    },
-    shutdown() {
-      restartReq.request.item[0]['@value'] = '0000000BAB9863D6'
-      this.$http.post(`${RMM.domain}/PowerMgmt`, restartReq, {headers: RMM.header})
-        .then((res) => {
-          console.log(res)
-        })
     }
   },
   created () {
