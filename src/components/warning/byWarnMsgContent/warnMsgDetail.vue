@@ -3,9 +3,9 @@
     detailMenu
     .topbar
       .pageInfo(@click="backToMsg")
-        i(class="fa fa-angle-double-left")
-        h4.warnType {{$route.params.type}}
-      h4.deviceType UPOS
+        i(class="fa fa-angle-left")
+        h4.warnType 回上一頁
+      h4.deviceType {{$route.params.device}} - {{$route.params.type}}
     .container
       .row
         .detailBlock.col-12-md

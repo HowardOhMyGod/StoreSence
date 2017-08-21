@@ -21,14 +21,14 @@
         span 異常類別 :
         select
           option(value='' selected)  所有異常
-      hr
-      .downBar
-        .repairStatus
-          p.notyet 未處理
-          p 處理中
-          p 已完成
-        .areaRoutes
-          p {{currentStorePath}}
+      .areaRoutes
+        p {{currentStorePath}}
+      //- hr
+      //- .downBar
+      //-   .repairStatus
+      //-     p.notyet 未處理
+      //-     p 處理中
+      //-     p 已完成
 </template>
 
 <script>
@@ -90,10 +90,15 @@ export default {
     width: 100%
     top: 230px
     z-index: 500
+    box-shadow: 0px 15px 5px -15px #111
   .filterBar
     padding: 10px 20px
     position: absolute
     width: 100%
+    .areaRoutes
+      font-weight: 700
+      margin-top: 20px
+      margin-left: 10px
     .areaFilter, .deviceFilter
       display: flex
       padding-left: 10px
@@ -153,9 +158,6 @@ export default {
         p
           margin-right: 10px
           font-size: 14px
-      .areaRoutes
-        font-weight: 700
-        top: 1px
       .repairStatus
         p
           border-radius: 20px

@@ -4,6 +4,8 @@ import byDevice from './components/warning/byDevice.vue'
 import byWarn from './components/warning/byWarn.vue'
 import warnMsgAll from './components/warning/byWarnMsgContent/WarnAll.vue'
 import warnMsgDetail from './components/warning/byWarnMsgContent/warnMsgDetail.vue'
+import DevicePage from './components/deviceMoni/Device.vue'
+import deviceInfo from './components/deviceMoni/deviceInfo/deviceInfo.vue'
 
 
 export const routes = [{
@@ -34,8 +36,10 @@ export const routes = [{
         component: DataBoard
     },{
         path: '/device',
+        component: DevicePage,
         children: [{
-          path: 'detail/:name'
+          path: 'detail/:name',
+          component: deviceInfo
         }]
     },{
         path: '*',

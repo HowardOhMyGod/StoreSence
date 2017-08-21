@@ -46,7 +46,7 @@
             p 遠端控制
             select
               option(v-for="option in remoteActions") {{option}}
-        .deviceMonitor 進入設備監控
+        .deviceMonitor(@click="$router.push({path: '/device/detail/upos'})") 進入設備監控
 </template>
 
 <script>
@@ -189,8 +189,11 @@ export default {
         .deviceMonitor
           text-align: center
           margin-top: 20px
-          padding: 2px 0px
-          border: solid 1px black
+          padding: 5px 0px
+          cursor: pointer
+          background-color: $colorDarkBlue
+          border-radius: 4px
+          color: white
         .remoteControl
           margin-top: 15px
           .powerActions, .remoteActions
