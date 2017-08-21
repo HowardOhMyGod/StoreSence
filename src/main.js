@@ -21,6 +21,10 @@ export const eventBus = new Vue({
     // change topbar page title when navigating
     navigatePage (title) {
       this.$emit('navigate', title)
+    },
+    //open control menu in warnMsg detailMenu
+    openControlMenu(deviceDetail) {
+      this.$emit('openControl', deviceDetail)
     }
   }
 })

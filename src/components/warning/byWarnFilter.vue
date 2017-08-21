@@ -74,6 +74,7 @@ export default {
 
 <style lang="sass" scoped>
   $colorWhite: #fff
+  $colorDarkBlue: #2EA6E2
   *
     position: relative
     // border: solid 1px black
@@ -118,7 +119,7 @@ export default {
           width: 150px
           text-align: center
           bottom: 5px
-          background-color: #03D04D
+          background-color: $colorDarkBlue
           color: white
           border-radius: 4px
         p:hover

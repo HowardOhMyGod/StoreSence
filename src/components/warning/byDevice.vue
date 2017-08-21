@@ -25,7 +25,8 @@
                 .staff.data 何智誠
     .detailBlock(:class="{open: detailOpen}")
       .head
-        i(class="fa fa-arrow-right", @click="detailOpen = false")
+        i(class="fa fa-desktop")
+        i(class="fa fa-times", @click="detailOpen = false")
         h4 {{selectedDev.deviceModel}}
       .body
         .deviceInfo
@@ -126,6 +127,7 @@ export default {
   $colorRed: #CC031C
   $colorYellow: #FFA60A
   $colorLightBlue: #2DB9F6
+  $colorDarkBlue: #2EA6E2
   *
     // border: solid 1px black
     position: relative
@@ -144,7 +146,7 @@ export default {
       background-color: #eee
       right: 0px
       top: 193px
-      z-index: 1000
+      z-index: 700
       background-color: $colorWhite
       box-shadow: 0px 0px 3px rgba(black, 0.6)
       transition: 0.2s
@@ -152,17 +154,24 @@ export default {
       .head
         display: flex
         padding: 10px 10px
-        background-color: $colorYellow
-        color: $colorWhite
+        // background-color: $colorDarkBlue
+        // color: $colorWhite
         i
           height: 18px
           font-size: 20px
           vertical-align: top
           cursor: pointer
+        .fa-times
+          position: absolute
+          right: 15px
+          top: 8px
+          font-size: 16px
+        .fa-desktop
+          left: 10px
         h4
           vertical-align: top
           margin: 0px
-          margin-left: 20px
+          margin-left: 30px
           font-weight: 600
       .body
         padding: 10px 20px
@@ -243,7 +252,7 @@ export default {
                   display: inline-block
                   margin: 0px
                   font-size: 14px
-                  background-color: $colorRed
+                  background-color: $colorDarkBlue
                   border-radius: 4px
                   color: $colorWhite
             .warningListTable

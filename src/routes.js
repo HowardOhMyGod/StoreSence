@@ -11,8 +11,7 @@ export const routes = [{
         redirect: {
             path: '/warning/device'
         }
-    },
-    {
+    },{
         path: '/warning',
         component: WarnPage,
         redirect: {path: '/warning/device'},
@@ -30,12 +29,15 @@ export const routes = [{
               component: warnMsgDetail
             }]
         }]
-    },
-    {
+    },{
         path: '/data',
         component: DataBoard
-    },
-    {
+    },{
+        path: '/device',
+        children: [{
+          path: 'detail/:name'
+        }]
+    },{
         path: '*',
         redirect: {
             path: '/warning/device'

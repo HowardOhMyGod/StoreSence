@@ -1,7 +1,8 @@
 <template lang="pug">
   .byWarnInfo
     byWarnFilter
-    router-view
+    transition(name="fade" mode="out-in" appear)
+      router-view
 </template>
 
 <script>
@@ -14,6 +15,11 @@ export default {
 </script>
 
 <style lang="sass">
-  .byWarnInfo
-    // height: 1200px
+  .fade-enter-active, .fade-leave-active
+    transition: opacity 0.3s
+    // transition: transform 0.4s
+  .fade-enter, .fade-leave-active
+    opacity: 0
+    // transform: translateX(-100%)
+
 </style>

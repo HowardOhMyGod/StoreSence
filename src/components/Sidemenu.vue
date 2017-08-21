@@ -26,8 +26,7 @@ export default {
         icon: 'https://firebasestorage.googleapis.com/v0/b/storesense-1a3d1.appspot.com/o/sidemenu%2Ficon_dashboard_off.svg?alt=media&token=2cedae4d-a9d8-446c-a881-df89c038955c'
       }, {
         name: '異常警示',
-        submenu: ['全部警示',
-        '系統偵測', '店員通報'],
+        submenu: ['設備類型', '異常類型'],
         open: false,
         link: '/warning',
         icon: 'https://firebasestorage.googleapis.com/v0/b/storesense-1a3d1.appspot.com/o/sidemenu%2Ficon_alert_off.svg?alt=media&token=8b36ec71-5b8d-4639-bf4f-a3e526ea01de'
@@ -35,7 +34,7 @@ export default {
         name: '設備監控',
         submenu: ['你好'],
         open: false,
-        link: '',
+        link: '/device/detail/upos',
         icon: 'https://firebasestorage.googleapis.com/v0/b/storesense-1a3d1.appspot.com/o/sidemenu%2Ficon_device_off.svg?alt=media&token=1eddbd8f-b01a-4df7-b34a-bea7ed45ce72'
       }, {
         name: '數據分析',

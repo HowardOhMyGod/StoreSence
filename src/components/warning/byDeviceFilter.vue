@@ -16,7 +16,7 @@
       hr
       .downBar
         .repairStatus
-          p.notyet 未處理
+          p.notyet 未處理 4
           p 處理中
           p 已完成
         .areaRoutes
@@ -70,6 +70,7 @@ export default {
 
 <style lang="sass" scoped>
   $colorWhite: #fff
+  $colorDarkBlue: #2EA6E2
   *
     position: relative
     // border: solid 1px black
@@ -113,7 +114,7 @@ export default {
           width: 150px
           text-align: center
           bottom: 5px
-          background-color: #03D04D
+          background-color: $colorDarkBlue
           color: white
           border-radius: 4px
         p:hover
@@ -136,7 +137,9 @@ export default {
       margin-left: -20px
       margin-right: -20px
       padding-left: 20px
-      box-shadow: 0 3px 2px -2px rgba(black, 0.1)
+      // box-shadow: 0px 2px 15px -5px rgba(black, 0.7)
+      box-shadow: 0px 15px 10px -15px #111
+      z-index: 2000
       .repairStatus, .areaRoutes
         display: flex
         margin-left: 10px

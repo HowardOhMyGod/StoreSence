@@ -2,46 +2,84 @@
   .allWarnMsgInfo
     .container
       .row
-        .warnMsgBlock.col-md-6(v-for="i in [1,2,3,4,5,6]")
-          h4.warnTitle 開機次數異常
+        .warnMsgBlock(v-for="errorType in leftColData")
+          h4.warnTitle {{errorType.name}}
           .tableWraper
             .fieldBlock
-              h5.fieldName(v-for="field in fieldNames") {{field}}
-            .deviceList(v-for="i in [1,2,3,4]")
-              .deviceType.data UPOS-211
-              .counter.data 11
-              .location.data 內湖分店
-              .occurTime.data 2017-5-21 9:30
+              .field(v-for="field in fieldNames")
+                h5.fieldName {{field}}
+                i(class="fa fa-caret-down")
+            .deviceList(v-for="device in errorType.devices",
+            @click="clickToDetail(errorType.name, device.model)")
+              .deviceType.data {{device.model}}
+              .counter.data {{device.counter}}
+              .location.data {{device.location}}
+              .occurTime.data {{device.occurTime}}
+              i(class="fa fa-angle-right")
+      .row
+        .warnMsgBlock(v-for="errorType in rightColData")
+          h4.warnTitle {{errorType.name}}
+          .tableWraper
+            .fieldBlock
+              .field(v-for="field in fieldNames")
+                h5.fieldName {{field}}
+                i(class="fa fa-caret-down")
+            .deviceList(v-for="device in errorType.devices",
+            @click="clickToDetail(errorType.name, device.model)")
+              .deviceType.data {{device.model}}
+              .counter.data {{device.counter}}
+              .location.data {{device.location}}
+              .occurTime.data {{device.occurTime}}
               i(class="fa fa-angle-right")
 </template>
 
 <script>
+import {warnMessage} from '../../../data/warnMsg'
 export default {
   data() {
     return {
-      fieldNames: ['設備型號', '發生次數', '所在位置', '發生時間']
+      fieldNames: ['設備型號', '發生次數', '所在位置', '發生時間'],
+      errMessages:　warnMessage.messages,
+      rightColData: [],
+      leftColData: []
     }
+  },
+  methods: {
+    clickToDetail(errorType, deviceModel) {
+      this.$router.push({path: `/warning/warnMsg/${errorType}/${deviceModel}`})
+    }
+  },
+  created() {
+      for(let i = 0; i < this.errMessages.length; i++) {
+        if (i % 2 === 0) {
+          this.leftColData.push(this.errMessages[i])
+        } else if (i % 2 !== 0){
+          this.rightColData.push(this.errMessages[i])
+        }
+      }
   }
 }
 </script>
 
 <style lang="sass" scoped>
-  $tableWidth: 110px
+  $tableWidth: 120px
   $colorWhite: #fff
   $colorBlue: #F0FAFC
+  $borderColor: rgba(black, 0.1)
   *
     // border: solid 1px black
     position: relative
   .allWarnMsgInfo
     width: 100%
     top: 40px
-    background-color: #eee
     .container
-      padding: 0px 30px
+      padding: 20px 45px
+      display: flex
       .row
         .warnMsgBlock
           margin-top: 10px
           margin-bottom: 20px
+          margin-right: 50px
           .warnTitle
             font-weight: 600
             left: 5px
@@ -50,19 +88,30 @@ export default {
             padding: 10px 20px
             background-color: $colorWhite
             padding-bottom: 20px
-            width: 520px
+            width: 535px
             border-radius: 3px
             box-shadow: 0px 0px 3px rgba(black, 0.3)
             .fieldBlock
               display: flex
-              .fieldName
-                width: $tableWidth
-                font-size: 16px
-                font-weight: 600
+              margin-bottom: 5px
+              .field
+                display: flex
+                .fieldName
+                  width: $tableWidth
+                  font-size: 17px
+                  font-weight: 600
+                i
+                  height: 20px
+                  position: absolute
+                  right: 25px
+                  top: 10px
             .deviceList
               display: flex
               padding: 8px 4px
               padding-right: 10px
+              // border-left: solid 1px $borderColor
+              // border-right: solid 1px $borderColor
+              cursor: pointer
               .counter
                 padding-left: 5px
               .occurTime
@@ -76,5 +125,8 @@ export default {
               width: $tableWidth
             .deviceList:nth-child(odd)
               background-color: $colorBlue
-
+            .deviceList:nth-child(2)
+              border-top: solid 1px $borderColor
+            .deviceList:nth-last-child(1)
+              border-bottom: solid 1px $borderColor
 </style>
