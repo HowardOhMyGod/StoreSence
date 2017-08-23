@@ -22,10 +22,6 @@
       h4.title 異常類別
       select
         option(value='' selected) 全部異常
-    .eventSelect.selBar
-      h4.title 事件選擇
-      select
-        option(value='' selected) 設備損壞率
     .dateRange.selBar
       h4.title 時間範圍
       select
@@ -44,17 +40,20 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+  $colorWhite: #fff
+  $colorLightBlue: #27A3DF
   // *
   //   // border: solid 1px black
   .dataFilterBar
-    // position: fixed
-    width: 270px
-    float: right
+    position: fixed
+    width: 250px
+    right: 20px
     padding: 0px 30px
     padding-top: 5px
     height: calc(100vh - 100px)
     overflow-y: scroll
-    box-shadow: 0px 0px 5px rgba(black, 0.6)
+    box-shadow: 0px 0px 3px rgba(black, 0.3)
+    background-color: $colorWhite
     .sumitBtn
       margin-top: 30px
       p
