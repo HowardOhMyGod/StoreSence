@@ -7,12 +7,23 @@
 </template>
 
 <script>
+import {cantTouch, deadPC} from '../../data/dataBoard'
+import {eventBus} from '../../main'
 export default {
 	data() {
 		return {
-			selectData: 'Hello'
+			selectData: null
 		}
 	},
+  watch: {
+    selectData () {
+      if (this.selectData == '無法觸控') {
+        eventBus.passDataBoardData(cantTouch, this.selectData)
+      } else if (this.selectData == '軟體當機') {
+        eventBus.passDataBoardData(deadPC, this.selectData)
+      }
+    }
+  },
   methods: {
     // Doughnut listen for click event and change select data
     canvasListen() {
@@ -29,7 +40,7 @@ export default {
   				var value = chartData.datasets[0].data[idx]
 
           //change current selected data
-          vue.selectData = value
+          vue.selectData = label
   			}
   		}
     }
@@ -40,16 +51,15 @@ export default {
 			data: {
 				datasets: [{
 					data: [
-						10,
-						20,
-						30
+						3,
+						1,
+						5
 					],
 					backgroundColor: [
 						"#FF6384",
 						"#36A2EB",
 						"#FFCE56"
-					],
-					label: 'Dataset 1'
+					]
 				}],
 				labels: [
 					"觸控不準",
@@ -89,7 +99,6 @@ export default {
   *
     position: relative
   .doughnut
-    // background-color: black
     padding: 10px 80px
     #canvas-holder
       width: 60%

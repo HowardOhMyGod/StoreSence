@@ -25,6 +25,10 @@ export const eventBus = new Vue({
     //open control menu in warnMsg detailMenu
     openControlMenu(deviceDetail) {
       this.$emit('openControl', deviceDetail)
+    },
+    // pass dataBoard data
+    passDataBoardData(data, type) {
+      this.$emit('passData', data, type)
     }
   }
 })

@@ -26,35 +26,44 @@
             p 已處理 : 5
         .dataTableBlock
           .detailTable
-            h4.title 問題設備列表
+            h4.title 問題設備列表 - {{warnType}}
             .fieldBlock
               h5.field(v-for="field in deviceFields") {{field}}
-            .deviceList(v-for="i in [1,2,3,4,5]")
-              .devModel.data UPOS-211D
-              .occurTime.data 2017-5-21 9:30
-              .location.data 內湖店
+            .deviceList(v-for="device in boardData.devices")
+              .devModel.data {{device.deviceModel}}
+              .occurTime.data {{device.occurTime}}
+              .location.data {{device.location}}
           .counterTable
             h4.title 門市異常次數
             .storeFieldBlock
               h5.storeField(v-for="field in storeFields") {{field}}
-            .storeList(v-for="i in [1,2,3]")
-              .store.sdata 內湖店
-              .counter.sdata 5
+            .storeList(v-for="store in boardData.stores")
+              .store.sdata {{store.store}}
+              .counter.sdata {{store.times}}
 </template>
 
 <script>
 import dataFilterBar from './Filterbar.vue'
 import Doughnut from './Doughnut.vue'
+import {eventBus} from '../../main'
 export default {
   data () {
     return {
       deviceFields: ['設備型號', '發生時間', '所在位置'],
-      storeFields: ['店家', '發生次數']
+      storeFields: ['店家', '發生次數'],
+      boardData: {},
+      warnType: ''
     }
   },
   components: {
     filterBar: dataFilterBar,
     doughnut: Doughnut
+  },
+  created() {
+    eventBus.$on('passData', (data, type) => {
+      this.boardData = data
+      this.warnType = type
+    })
   }
 }
 </script>
@@ -145,7 +154,6 @@ export default {
                 margin: 0px
                 font-size: 16px
                 font-weight: 600
-
         .statusBar
           display: flex
           width: 490px
