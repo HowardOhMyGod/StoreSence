@@ -2,7 +2,7 @@
   .hostInfoBlock
     .topDeviceBar
       .deviceName
-        h3 UTC520-F
+        h3 {{$route.params.name}}
       .controlBar
         .selc
           p.remoteControl(@click="dropDownMenu(1)") 遠端控制

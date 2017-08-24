@@ -11,6 +11,9 @@
       i.fa.fa-caret-down(v-if="option.submenu.length > 0", @click='openSubMenu(id)')
       .submenu(v-if='submenuOpen(option)')
         p.subOptions(v-for='sub in option.submenu') > {{sub}}
+    .addDev
+      i(class="fa fa-plus-circle")
+      p 新增設備
 </template>
 
 <script>
@@ -113,6 +116,7 @@ export default {
   $menuWidth: 200px
   $menuFontColor: rgba(white, 0.7)
   $colorBlue: #171E2E
+  $colorLightBlue: #2EA6E2
 
   @mixin size($w, $h)
     width: $w
@@ -120,6 +124,25 @@ export default {
   *
     // border: solid 1px black
     position: relative
+  .addDev
+    color: white
+    display: flex
+    background-color: $colorLightBlue
+    width: 160px
+    border-radius: 4px
+    padding: 5px 30px
+    position: absolute
+    bottom: 80px
+    left: 50%
+    transform: translateX(-50%)
+    i
+      font-size: 16px
+      margin-right: 10px
+      top: 2px
+    p
+      font-size: 15px
+      margin: 0px
+
   .sidemenu
     +size($menuWidth, 100%)
     position: fixed
@@ -136,7 +159,7 @@ export default {
       // padding: 10px
     .title.selected
       background-color: #262D3D
-      border-left: solid 5px #EC641D
+      border-left: solid 5px $colorLightBlue
     .title
       cursor: pointer
       padding-left: 20px

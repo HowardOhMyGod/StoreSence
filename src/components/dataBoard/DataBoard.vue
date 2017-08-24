@@ -29,7 +29,7 @@
             h4.title 問題設備列表 - {{warnType}}
             .fieldBlock
               h5.field(v-for="field in deviceFields") {{field}}
-            .deviceList(v-for="device in boardData.devices")
+            .deviceList(v-for="device in boardData.devices" @click="toDeviceDetail(device.deviceModel)")
               .devModel.data {{device.deviceModel}}
               .occurTime.data {{device.occurTime}}
               .location.data {{device.location}}
@@ -37,7 +37,7 @@
             h4.title 門市異常次數
             .storeFieldBlock
               h5.storeField(v-for="field in storeFields") {{field}}
-            .storeList(v-for="store in boardData.stores")
+            .storeList(v-for="store in boardData.stores" @click="toWarnPage()")
               .store.sdata {{store.store}}
               .counter.sdata {{store.times}}
 </template>
@@ -53,6 +53,14 @@ export default {
       storeFields: ['店家', '發生次數'],
       boardData: {},
       warnType: ''
+    }
+  },
+  methods: {
+    toDeviceDetail(device) {
+      this.$router.push({path: `/device/detail/${device}`})
+    },
+    toWarnPage() {
+      this.$router.push({path: `/warning/device`})
     }
   },
   components: {
@@ -116,6 +124,9 @@ export default {
                 font-size: 15px
                 font-weight: 600
                 margin: 0px
+            .deviceList:hover
+              box-shadow: 0px 0px 2px rgba(black, 0.2)
+              cursor: pointer
             .deviceList
               display: flex
               padding: 6px 5px
@@ -135,6 +146,9 @@ export default {
               margin: 0px
               font-weight: 600
               margin-bottom: 13px
+            .storeList:hover
+              box-shadow: 0px 0px 2px rgba(black, 0.2)
+              cursor: pointer
             .storeList
               display: flex
               padding: 5px 5px

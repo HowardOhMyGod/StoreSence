@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     navigateDevMonitor() {
-      this.$router.push({path: '/device/detail/upos'})
+      this.$router.push({path: `/device/detail/${this.$route.params.device}`})
     }
   },
   created() {

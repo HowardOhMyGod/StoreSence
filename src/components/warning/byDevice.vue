@@ -46,7 +46,7 @@
             p 遠端控制
             select
               option(v-for="option in remoteActions") {{option}}
-        .deviceMonitor(@click="$router.push({path: '/device/detail/upos'})") 進入設備監控
+        .deviceMonitor(@click="toDeviceDetail(selectedDev.deviceModel)") 進入設備監控
 </template>
 
 <script>
@@ -102,6 +102,9 @@ export default {
       } else {
         return false
       }
+    },
+    toDeviceDetail(device) {
+      this.$router.push({path: `/device/detail/${device}`})
     }
   },
   created () {
