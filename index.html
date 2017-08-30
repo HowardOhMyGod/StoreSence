@@ -11,6 +11,41 @@
   </head>
   <body>
     <div id="app"></div>
+    <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase-messaging.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyC5VDrJ2n8qlasT3DaWdsiW289RjNWor-A",
+        authDomain: "storesense-1a3d1.firebaseapp.com",
+        databaseURL: "https://storesense-1a3d1.firebaseio.com",
+        projectId: "storesense-1a3d1",
+        storageBucket: "storesense-1a3d1.appspot.com",
+        messagingSenderId: "956077735708"
+      };
+      firebase.initializeApp(config);
+
+      // Retrieve Firebase Messaging object.
+      const messaging = firebase.messaging()
+
+      // let user permission
+      messaging.requestPermission()
+        .then(function() {
+          console.log('Notification permission granted.');
+          return messaging.getToken()
+        })
+        .then((token) => {
+          console.log(token)
+        })
+        .catch(function(err) {
+          console.log('Unable to get permission to notify.', err);
+        })
+      messaging.onMessage((payload) => {
+        console.log('onMessage:', payload)
+      })
+
+
+    </script>
     <script src="/dist/build.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
   </body>

@@ -6,23 +6,24 @@
         .row
           .warningListBlock.col-md-12.col-sm-9(v-for="(group, groupId) in groups")
             .floor
-              h3 {{group.groupName}}
-            .warningListTable
-              .fields
-                .fieldName(v-for="field in fields")
-                  p {{field}}
-                  i.fa.fa-caret-down
-              .warningDevice(v-for="(device, deviceId) in group.devices"
-              @click="selectedDevice(groupId, deviceId)", :class="{selected: selectedStyle(groupId, deviceId)}")
-                .status.data
-                  p {{manageStat(device.manageStat)}}
-                .location.data 內湖門市
-                .deviceType.data {{device.deviceModel}}
-                .warnType.data {{device.errorType}}
-                .sourceType.data {{device.sourceType}}
-                .occurTime.data {{device.occurTime}}
-                .finishTime.data 2017-3-20 10:05
-                .staff.data 何智誠
+              h3 {{group.name}}
+            transition(name="fade")
+              .warningListTable(v-if="group.devices.length > 0")
+                .fields
+                  .fieldName(v-for="field in fields")
+                    p {{field}}
+                    i.fa.fa-caret-down
+                .warningDevice(v-for="(device, deviceId) in group.devices"
+                @click="selectedDevice(groupId, deviceId)", :class="{selected: selectedStyle(groupId, deviceId)}")
+                  .status.data
+                    p {{manageStat(device.manageStat)}}
+                  .location.data {{device.location}}
+                  .deviceType.data {{device.deviceModel}}
+                  .warnType.data {{device.errorType}}
+                  .sourceType.data {{device.sourceType}}
+                  .occurTime.data {{toDate(device.occurTime)}}
+                  .finishTime.data 2017-3-20 10:05
+                  .staff.data {{device.staff}}
     .detailBlock(:class="{open: detailOpen}")
       .head
         i(class="fa fa-desktop")
@@ -54,24 +55,26 @@ import {warningDevice, warningDeviceTwo} from '../../data/warningDevice'
 import {storeOneSysterm, storeOneClerk} from '../../data/warningDevice'
 import {eventBus} from '../../main'
 import FilterBar from './byDeviceFilter.vue'
+import {errorReq} from '../../request/errorReport'
 export default {
   data() {
     return {
       fields: ['處理狀態', '所在位置', '設備型號', '異常類別','通報類型', '發生時間',' 完成時間', '處理人員'],
       powerActions: ['開機', '重開機', '關機'],
       remoteActions: ['遠端桌面', '遠端CMD'],
-      originGroups: warningDevice.groups,
-      groups: warningDevice.groups,
       selectedDev: warningDevice.groups[0].devices[0],
       selectedId: {
         groupId: 0,
         deviceId: 0
       },
-      deviceMonitor: {
-        cpu: 0,
-        ram: 0
-      },
       filterMenuStyle: {},
+      groups: [{
+        name: 'POS 機',
+        devices: []
+      },{
+        name: 'Touch-PC',
+        devices: []
+      }],
       sourceType: null,
       detailOpen: false
     }
@@ -105,20 +108,28 @@ export default {
     },
     toDeviceDetail(device) {
       this.$router.push({path: `/device/detail/${device}`})
+    },
+    toDate(mileSecond) {
+      let date = new Date(mileSecond).toLocaleDateString().replace(/\//g, '-')
+      let time = new Date(mileSecond).toLocaleTimeString().split(' ')[0]
+      time = time.split(':')[0] + ':' + time.split(':')[1]
+      return `${time} ${date}`
     }
   },
-  created () {
-    setInterval(() => {
-      this.deviceMonitor = {
-        cpu: parseInt(Math.random() * 50),
-        ram: parseInt(Math.random() * 50)
-      }
-    }, 800)
+  mounted() {
+    // loading warning data
+    setTimeout(() => {
+      errorReq(this).then((warnObj) => {
+        this.groups[0].devices = warnObj.pos
+        this.groups[1].devices = warnObj.touchPC
+      })
+    }, 200)
 
+  },
+  created () {
     // listen for change source type from warning Type bar
     eventBus.$on('selectWarnSourceType', (type) => {
       this.sourceType = type
-      console.log(this.sourceType)
     })
   }
 }
@@ -134,6 +145,10 @@ export default {
   *
     // border: solid 1px black
     position: relative
+  .fade-enter-active, .fade-leave-active
+    transition: opacity .5s
+  .fade-enter, .fade-leave-to
+    opacity: 0
 
   .storeWarningInfo
     width: calc(100%)
@@ -238,6 +253,9 @@ export default {
             .floor
               padding: 10px 10px
               margin-bottom: 5px
+              h4
+                left: 50%
+                // transform: translateX(-50%)
               h3
                 margin: 0px
                 font-size: 20px
