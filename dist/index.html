@@ -37,7 +37,20 @@
           return messaging.getToken()
         })
         .then((token) => {
-          console.log(token)
+          // console.log(token)
+          // register device to topics
+          fetch(`https://iid.googleapis.com/iid/v1/${token}/rel/topics/warning`, {
+            method: 'POST',
+            headers: new Headers({
+              'Authorization': 'key=AAAA3pqsfxw:APA91bGHezdDkhXk-h8b2zBbEXdFcs5-f0XHHWQhEBwpNrLrF2jFYUqR2vGwOPdslOoUBdnnlPLz99x3FgPOHyxe2F1zQtg2a49cBTJN0RjG-sTsiEwBTr52QyG-Rnn7S2h3c60Z5WUf'
+            })
+          }).then((res) => {
+            if (res.status != 200) {
+              console.log('error')
+            } else {
+              console.log('Topic Register!')
+            }
+          })
         })
         .catch(function(err) {
           console.log('Unable to get permission to notify.', err);
