@@ -25,6 +25,27 @@
         messagingSenderId: "956077735708"
       };
       firebase.initializeApp(config);
+
+      // Retrieve Firebase Messaging object.
+      const messaging = firebase.messaging()
+
+      // let user permission
+      messaging.requestPermission()
+        .then(function() {
+          console.log('Notification permission granted.');
+          return messaging.getToken()
+        })
+        .then((token) => {
+          console.log(token)
+        })
+        .catch(function(err) {
+          console.log('Unable to get permission to notify.', err);
+        })
+      messaging.onMessage((payload) => {
+        console.log('onMessage:', payload)
+      })
+
+
     </script>
   </body>
 </html>
