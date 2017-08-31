@@ -16,7 +16,7 @@
                 .warningDevice(v-for="(device, deviceId) in group.devices"
                 @click="selectedDevice(groupId, deviceId)", :class="{selected: selectedStyle(groupId, deviceId)}")
                   .status.data
-                    p {{manageStat(device.manageStat)}}
+                    p(:style="manageStatStyle(device.manageStat)") {{manageStat(device.manageStat)}}
                   .location.data {{device.location}}
                   .deviceType.data {{device.deviceModel}}
                   .warnType.data {{device.errorType}}
@@ -90,6 +90,15 @@ export default {
         return '處理中'
       } else if (stat == '1'){
         return '已處理'
+      }
+    },
+    manageStatStyle(stat) {
+      if (stat == '-1') {
+        return
+      } else if (stat == '0') {
+        return {'backgroundColor': "#FFCC00"}
+      } else if (stat == '1'){
+        return {'backgroundColor': "gray"}
       }
     },
     selectedDevice(groupId, deviceId) {
