@@ -16,7 +16,7 @@
                 i(class="fa fa-caret-down")
             .deviceList(v-for="errMsg in warnDetail.errorList")
               .status.data
-                p {{manageStat(errMsg.manageStat)}}
+                p(:style="manageStatStyle(errMsg.manageStat)") {{manageStat(errMsg.manageStat)}}
               .deviceModel.data {{$route.params.device}}
               .warnType.data {{$route.params.type}}
               .location.data {{errMsg.location}}
@@ -30,7 +30,11 @@ import detailMenu from '../detailMenu.vue'
 // import {warnDetail} from '../../../data/warnMsgDetail'
 import {eventBus} from '../../../main'
 import {warnTypeDetail} from '../../../request/errorReport'
+import {dateOperate} from '../../../mixin/dateMixin'
+import {statOperate} from '../../../mixin/statMixin'
+
 export default {
+  mixins: [dateOperate, statOperate],
   data () {
     return {
       fieldNames: ['處理狀態', '設備型號',
@@ -45,25 +49,6 @@ export default {
     },
     openControlMenu(deviceDetail){
       eventBus.openControlMenu(deviceDetail)
-    },
-    manageStat(stat) {
-      if (stat == '-1') {
-        return '未處理'
-      } else if (stat == '0') {
-        return '處理中'
-      } else if (stat == '1'){
-        return '已處理'
-      }
-    },
-    toDate(mileSecond) {
-      if (mileSecond !== '-') {
-        let date = new Date(mileSecond).toLocaleDateString().replace(/\//g, '-')
-        let time = new Date(mileSecond).toLocaleTimeString().split(' ')[0]
-        time = time.split(':')[0] + ':' + time.split(':')[1]
-        return `${time} ${date}`
-      } else {
-        return '-'
-      }
     }
   },
   components: {
@@ -71,7 +56,6 @@ export default {
   },
   mounted() {
     warnTypeDetail(this, this.$route.params.type).then((res) => {
-      console.log(res)
       this.warnDetail = res
     })
   }

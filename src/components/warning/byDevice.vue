@@ -56,7 +56,10 @@ import {storeOneSysterm, storeOneClerk} from '../../data/warningDevice'
 import {eventBus} from '../../main'
 import FilterBar from './byDeviceFilter.vue'
 import {errorReq} from '../../request/errorReport'
+import {dateOperate} from '../../mixin/dateMixin'
+import {statOperate} from '../../mixin/statMixin'
 export default {
+  mixins: [dateOperate, statOperate],
   data() {
     return {
       fields: ['處理狀態', '所在位置', '設備型號', '異常類別','通報類型', '發生時間',' 完成時間', '處理人員'],
@@ -83,24 +86,6 @@ export default {
     filterBar: FilterBar
   },
   methods: {
-    manageStat(stat) {
-      if (stat == '-1') {
-        return '未處理'
-      } else if (stat == '0') {
-        return '處理中'
-      } else if (stat == '1'){
-        return '已處理'
-      }
-    },
-    manageStatStyle(stat) {
-      if (stat == '-1') {
-        return
-      } else if (stat == '0') {
-        return {'backgroundColor': "#FFCC00"}
-      } else if (stat == '1'){
-        return {'backgroundColor': "gray"}
-      }
-    },
     selectedDevice(groupId, deviceId) {
       this.selectedDev = this.groups[groupId].devices[deviceId]
       this.selectedId.deviceId = deviceId
@@ -117,26 +102,15 @@ export default {
     },
     toDeviceDetail(device) {
       this.$router.push({path: `/device/detail/${device}`})
-    },
-    toDate(mileSecond) {
-      if (mileSecond !== '-') {
-        let date = new Date(mileSecond).toLocaleDateString().replace(/\//g, '-')
-        let time = new Date(mileSecond).toLocaleTimeString().split(' ')[0]
-        time = time.split(':')[0] + ':' + time.split(':')[1]
-        return `${time} ${date}`
-      } else {
-        return '-'
-      }
     }
   },
   mounted() {
     // loading warning data
-    setTimeout(() => {
-      errorReq(this).then((warnObj) => {
-        this.groups[0].devices = warnObj.pos
-        this.groups[1].devices = warnObj.touchPC
-      })
-    }, 200)
+    errorReq(this).then((warnObj) => {
+      this.groups[0].devices = warnObj.pos
+      this.groups[1].devices = warnObj.touchPC
+    })
+
 
   },
   created () {
