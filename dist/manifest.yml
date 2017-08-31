@@ -1,0 +1,3 @@
+applications:
+- name: StoreSense
+  command: node server.js
