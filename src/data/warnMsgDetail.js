@@ -1,11 +1,4 @@
 export var warnDetail = {
-  deviceInfo: {
-    deviceType: 'UPOS',
-    deviceModel: 'UPOS-211D',
-    deviceName: '001',
-    cpu: 30,
-    ram: 50
-  },
   errorList: [{
     status: '未處理',
     deviceModel: 'UPOS-211D',

@@ -5,7 +5,7 @@
       .leftBlock
         .row
           .warningListBlock.col-md-12.col-sm-9(v-for="(group, groupId) in groups")
-            .floor
+            .floor(v-if="group.devices.length > 0")
               h3 {{group.name}}
             transition(name="fade")
               .warningListTable(v-if="group.devices.length > 0")
@@ -22,7 +22,7 @@
                   .warnType.data {{device.errorType}}
                   .sourceType.data {{device.sourceType}}
                   .occurTime.data {{toDate(device.occurTime)}}
-                  .finishTime.data 2017-3-20 10:05
+                  .finishTime.data {{toDate(device.finishTime)}}
                   .staff.data {{device.staff}}
     .detailBlock(:class="{open: detailOpen}")
       .head
@@ -110,10 +110,14 @@ export default {
       this.$router.push({path: `/device/detail/${device}`})
     },
     toDate(mileSecond) {
-      let date = new Date(mileSecond).toLocaleDateString().replace(/\//g, '-')
-      let time = new Date(mileSecond).toLocaleTimeString().split(' ')[0]
-      time = time.split(':')[0] + ':' + time.split(':')[1]
-      return `${time} ${date}`
+      if (mileSecond !== '-') {
+        let date = new Date(mileSecond).toLocaleDateString().replace(/\//g, '-')
+        let time = new Date(mileSecond).toLocaleTimeString().split(' ')[0]
+        time = time.split(':')[0] + ':' + time.split(':')[1]
+        return `${time} ${date}`
+      } else {
+        return '-'
+      }
     }
   },
   mounted() {

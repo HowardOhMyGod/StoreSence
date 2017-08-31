@@ -10,11 +10,11 @@
                 h5.fieldName {{field}}
                 i(class="fa fa-caret-down")
             .deviceList(v-for="device in errorType.devices",
-            @click="clickToDetail(errorType.name, device.model)")
-              .deviceType.data {{device.model}}
-              .counter.data {{device.counter}}
+            @click="clickToDetail(errorType.name, device.deviceModel)")
+              .deviceType.data {{device.deviceModel}}
+              .counter.data {{device.softDead}}
               .location.data {{device.location}}
-              .occurTime.data {{device.occurTime}}
+              .occurTime.data 2017-8-30 15:00
               i(class="fa fa-angle-right")
       .row
         .warnMsgBlock(v-for="errorType in rightColData")
@@ -25,21 +25,22 @@
                 h5.fieldName {{field}}
                 i(class="fa fa-caret-down")
             .deviceList(v-for="device in errorType.devices",
-            @click="clickToDetail(errorType.name, device.model)")
-              .deviceType.data {{device.model}}
-              .counter.data {{device.counter}}
+            @click="clickToDetail(errorType.name, device.deviceModel)")
+              .deviceType.data {{device.deviceModel}}
+              .counter.data {{device.softDead}}
               .location.data {{device.location}}
-              .occurTime.data {{device.occurTime}}
+              .occurTime.data 2017-8-30 15:00
               i(class="fa fa-angle-right")
 </template>
 
 <script>
-import {warnMessage} from '../../../data/warnMsg'
+// import {warnMessage} from '../../../data/warnMsg'
+import {warnTypeReq} from '../../../request/errorReport'
 export default {
   data() {
     return {
       fieldNames: ['設備型號', '發生次數', '所在位置', '發生時間'],
-      errMessages:　warnMessage.messages,
+      errMessages:　[],
       rightColData: [],
       leftColData: []
     }
@@ -49,7 +50,11 @@ export default {
       this.$router.push({path: `/warning/warnMsg/${errorType}/${deviceModel}`})
     }
   },
-  created() {
+  mounted() {
+    warnTypeReq(this).then((res) => {
+      this.errMessages = res.messages
+
+      // split left and right
       for(let i = 0; i < this.errMessages.length; i++) {
         if (i % 2 === 0) {
           this.leftColData.push(this.errMessages[i])
@@ -57,6 +62,7 @@ export default {
           this.rightColData.push(this.errMessages[i])
         }
       }
+    })
   }
 }
 </script>

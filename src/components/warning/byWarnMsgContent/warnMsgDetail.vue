@@ -14,29 +14,29 @@
               .field(v-for="field in fieldNames")
                 h5.fieldName {{field}}
                 i(class="fa fa-caret-down")
-            .deviceList(v-for="errMsg in warnDetail.errorList",
-            @click="openControlMenu(warnDetail)")
+            .deviceList(v-for="errMsg in warnDetail.errorList")
               .status.data
-                p {{errMsg.status}}
+                p {{manageStat(errMsg.manageStat)}}
               .deviceModel.data {{$route.params.device}}
               .warnType.data {{$route.params.type}}
               .location.data {{errMsg.location}}
-              .occurTime.data {{errMsg.occurTime}}
-              .finishTime.data {{errMsg.finishTime}}
+              .occurTime.data {{toDate(errMsg.occurTime)}}
+              .finishTime.data {{toDate(errMsg.finishTime)}}
               .staff.data {{errMsg.staff}}
 </template>
 
 <script>
 import detailMenu from '../detailMenu.vue'
-import {warnDetail} from '../../../data/warnMsgDetail'
+// import {warnDetail} from '../../../data/warnMsgDetail'
 import {eventBus} from '../../../main'
+import {warnTypeDetail} from '../../../request/errorReport'
 export default {
   data () {
     return {
       fieldNames: ['處理狀態', '設備型號',
       '異常類別', '所在位置',
       '發生時間', '完成時間', '處理人員'],
-      warnDetail
+      warnDetail: {}
     }
   },
   methods: {
@@ -45,10 +45,35 @@ export default {
     },
     openControlMenu(deviceDetail){
       eventBus.openControlMenu(deviceDetail)
+    },
+    manageStat(stat) {
+      if (stat == '-1') {
+        return '未處理'
+      } else if (stat == '0') {
+        return '處理中'
+      } else if (stat == '1'){
+        return '已處理'
+      }
+    },
+    toDate(mileSecond) {
+      if (mileSecond !== '-') {
+        let date = new Date(mileSecond).toLocaleDateString().replace(/\//g, '-')
+        let time = new Date(mileSecond).toLocaleTimeString().split(' ')[0]
+        time = time.split(':')[0] + ':' + time.split(':')[1]
+        return `${time} ${date}`
+      } else {
+        return '-'
+      }
     }
   },
   components: {
     detailMenu
+  },
+  mounted() {
+    warnTypeDetail(this, this.$route.params.type).then((res) => {
+      console.log(res)
+      this.warnDetail = res
+    })
   }
 }
 </script>
