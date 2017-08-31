@@ -17,7 +17,7 @@
             .deviceList(v-for="errMsg in warnDetail.errorList")
               .status.data
                 p(:style="manageStatStyle(errMsg.manageStat)") {{manageStat(errMsg.manageStat)}}
-              .deviceModel.data {{$route.params.device}}
+              .deviceModel.data {{errMsg.deviceModel}}
               .warnType.data {{$route.params.type}}
               .location.data {{errMsg.location}}
               .occurTime.data {{toDate(errMsg.occurTime)}}
@@ -55,7 +55,7 @@ export default {
     detailMenu
   },
   mounted() {
-    warnTypeDetail(this, this.$route.params.type).then((res) => {
+    warnTypeDetail(this, this.$route.params.type, this.$route.params.device).then((res) => {
       this.warnDetail = res
     })
   }

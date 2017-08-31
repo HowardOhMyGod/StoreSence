@@ -30,10 +30,10 @@ export const warnTypeReq = function(self) {
   })
 }
 
-export const warnTypeDetail = function(self, type) {
+export const warnTypeDetail = function(self, type, devId) {
   return new Promise((resolve, reject) => {
     let vue = self
-    let domain = `https://store-sense-api-server.herokuapp.com/warnTypeDetail?type=${type}`
+    let domain = `https://store-sense-api-server.herokuapp.com/warnTypeDetail?type=${type}&devId=${devId}`
 
     vue.$http.get(domain).then((res) => {
       resolve(res.body)

@@ -1,69 +1,81 @@
 <template lang="pug">
-  .allWarnMsgInfo
-    .container
-      .row
-        .warnMsgBlock(v-for="errorType in leftColData")
-          h4.warnTitle {{errorType.name}}
-          .tableWraper
-            .fieldBlock
-              .field(v-for="field in fieldNames")
-                h5.fieldName {{field}}
-                i(class="fa fa-caret-down")
-            .deviceList(v-for="device in errorType.devices",
-            @click="clickToDetail(errorType.name, device.deviceModel)")
-              .deviceType.data {{device.deviceModel}}
-              .counter.data {{device.softDead}}
-              .location.data {{device.location}}
-              .occurTime.data 2017-8-30 15:00
-              i(class="fa fa-angle-right")
-      .row
-        .warnMsgBlock(v-for="errorType in rightColData")
-          h4.warnTitle {{errorType.name}}
-          .tableWraper
-            .fieldBlock
-              .field(v-for="field in fieldNames")
-                h5.fieldName {{field}}
-                i(class="fa fa-caret-down")
-            .deviceList(v-for="device in errorType.devices",
-            @click="clickToDetail(errorType.name, device.deviceModel)")
-              .deviceType.data {{device.deviceModel}}
-              .counter.data {{device.softDead}}
-              .location.data {{device.location}}
-              .occurTime.data 2017-8-30 15:00
-              i(class="fa fa-angle-right")
+.allWarnMsgInfo
+	.container
+		.row
+			.warnMsgBlock(v-for="errorType in leftColData")
+				h4.warnTitle {{errorType.name}}
+				.tableWraper
+					.fieldBlock
+						.field(v-for="field in fieldNames")
+							h5.fieldName {{field}}
+							i(class="fa fa-caret-down")
+					.deviceList(v-for="device in errorType.devices",
+					@click="clickToDetail(errorType.name, device.deviceModel)")
+						.deviceType.data {{device.deviceModel}}
+						.counter.data {{device[errorTypeTable[errorType.name]]}}
+						.location.data {{device.location}}
+						.occurTime.data {{new Date().getMonth() + '/' + new Date().getDate()}}
+						i(class="fa fa-angle-right")
+		.row
+			.warnMsgBlock(v-for="errorType in rightColData")
+				h4.warnTitle {{errorType.name}}
+				.tableWraper
+					.fieldBlock
+						.field(v-for="field in fieldNames")
+							h5.fieldName {{field}}
+							i(class="fa fa-caret-down")
+					.deviceList(v-for="device in errorType.devices",
+					@click="clickToDetail(errorType.name, device.deviceModel)")
+						.deviceType.data {{device.deviceModel}}
+						.counter.data {{device[errorTypeTable[errorType.name]]}}
+						.location.data {{device.location}}
+						.occurTime.data {{new Date().getMonth() + '/' + new Date().getDate()}}
+						i(class="fa fa-angle-right")
 </template>
 
 <script>
 // import {warnMessage} from '../../../data/warnMsg'
-import {warnTypeReq} from '../../../request/errorReport'
+import {
+	warnTypeReq
+} from '../../../request/errorReport'
 export default {
-  data() {
-    return {
-      fieldNames: ['設備型號', '發生次數', '所在位置', '發生時間'],
-      errMessages:　[],
-      rightColData: [],
-      leftColData: []
-    }
-  },
-  methods: {
-    clickToDetail(errorType, deviceModel) {
-      this.$router.push({path: `/warning/warnMsg/${errorType}/${deviceModel}`})
-    }
-  },
-  mounted() {
-    warnTypeReq(this).then((res) => {
-      this.errMessages = res.messages
+	data() {
+		return {
+			fieldNames: ['設備型號', '發生次數', '所在位置', '發生時間'],
+			errMessages: 　[],
+			rightColData: [],
+			leftColData: [],
+			errorTypeTable: {
+				"軟體當機": 'softDead',
+				"觸控無反應": "touchDead",
+				"觸控不準": "touchBug",
+				"螢幕黑屏": "blackScreen",
+				"停留在windows畫面": "stayWindows"
+			}
+		}
+	},
+	methods: {
+		clickToDetail(errorType, deviceModel) {
+			this.$router.push({
+				path: `/warning/warnMsg/${errorType}/${deviceModel}`
+			})
+		}
+	},
+	mounted() {
+		warnTypeReq(this).then((res) => {
+			this.errMessages = res.messages
+      console.log(this.errMessages)
 
-      // split left and right
-      for(let i = 0; i < this.errMessages.length; i++) {
-        if (i % 2 === 0) {
-          this.leftColData.push(this.errMessages[i])
-        } else if (i % 2 !== 0){
-          this.rightColData.push(this.errMessages[i])
-        }
-      }
-    })
-  }
+			// split left and right
+			for (let i = 0; i < this.errMessages.length; i++) {
+				if (i % 2 === 0) {
+					this.leftColData.push(this.errMessages[i])
+				} else if (i % 2 !== 0) {
+					this.rightColData.push(this.errMessages[i])
+				}
+			}
+		})
+	}
 }
 </script>
 
