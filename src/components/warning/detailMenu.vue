@@ -10,8 +10,8 @@
       p 設備類別 : {{deviceDetail.deviceType}}
       p 設備型號 : {{$route.params.device}}
       p 設備名稱 : {{deviceDetail.deviceName}}
-      p CPU使用率 : {{deviceDetail.cpu}}
-      p RAM使用率 : {{deviceDetail.ram}}
+      p CPU使用率 : 50
+      p RAM使用率 : 20
     .remoteControl
       h4 遠端操作
       .powerActions
@@ -44,7 +44,7 @@ export default {
   created() {
     // listen for open
     eventBus.$on('openControl', (deviceDetail) => {
-      this.deviceDetail = deviceDetail.deviceInfo
+      this.deviceDetail = deviceDetail
       this.detailOpen = true
     })
   }

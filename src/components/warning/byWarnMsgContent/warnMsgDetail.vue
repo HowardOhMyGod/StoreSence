@@ -14,7 +14,8 @@
               .field(v-for="field in fieldNames")
                 h5.fieldName {{field}}
                 i(class="fa fa-caret-down")
-            .deviceList(v-for="errMsg in warnDetail.errorList")
+            .deviceList(v-for="errMsg in warnDetail.errorList",
+            @click="openControlMenu(errMsg)")
               .status.data
                 p(:style="manageStatStyle(errMsg.manageStat)") {{manageStat(errMsg.manageStat)}}
               .deviceModel.data {{errMsg.deviceModel}}
@@ -48,6 +49,7 @@ export default {
       this.$router.push({path: '/warning/warnMsg/all'})
     },
     openControlMenu(deviceDetail){
+      console.log(deviceDetail)
       eventBus.openControlMenu(deviceDetail)
     }
   },
