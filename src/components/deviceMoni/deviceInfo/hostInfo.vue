@@ -184,9 +184,14 @@ export default {
             box-shadow: 0px 0px 5px rgba(black, 0.7)
             li
               list-style-type: none
+              margin-right: -25px
+              margin-left: -25px
+              padding: 4px 25px
               margin-bottom: 5px
               font-size: 15px
               cursor: pointer
+            li:hover
+              background-color: #F5F5F5
         i
           top: 3px
           right: 7px

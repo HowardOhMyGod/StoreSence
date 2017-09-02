@@ -11,7 +11,7 @@ export const statOperate = {
     },
     manageStatStyle(stat) {
       if (stat == '-1') {
-        return
+        return {'backgroundColor': '#2EA6E2'}
       } else if (stat == '0') {
         return {'backgroundColor': "#FFCC00"}
       } else if (stat == '1'){

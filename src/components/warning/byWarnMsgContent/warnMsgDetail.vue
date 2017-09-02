@@ -49,7 +49,6 @@ export default {
       this.$router.push({path: '/warning/warnMsg/all'})
     },
     openControlMenu(deviceDetail){
-      console.log(deviceDetail)
       eventBus.openControlMenu(deviceDetail)
     }
   },

@@ -55,7 +55,7 @@ import {warningDevice, warningDeviceTwo} from '../../data/warningDevice'
 import {storeOneSysterm, storeOneClerk} from '../../data/warningDevice'
 import {eventBus} from '../../main'
 import FilterBar from './byDeviceFilter.vue'
-import {errorReq} from '../../request/errorReport'
+import {errorReq, cpuDetect} from '../../request/errorReport'
 import {dateOperate} from '../../mixin/dateMixin'
 import {statOperate} from '../../mixin/statMixin'
 export default {
@@ -111,7 +111,12 @@ export default {
       this.groups[1].devices = warnObj.touchPC
     })
 
-
+    // detect CPU
+    // setInterval(() => {
+    //   cpuDetect(this).then((result) => {
+    //     console.log(result)
+    //   })
+    // }, 20000)
   },
   created () {
     // listen for change source type from warning Type bar

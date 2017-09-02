@@ -4,7 +4,11 @@
 </template>
 
 <script>
+import processMoni from './deviceInfo/processMoni.vue'
 export default {
+  components: {
+    processMoni
+  }
 }
 </script>
 

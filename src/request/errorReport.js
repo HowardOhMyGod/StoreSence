@@ -40,3 +40,40 @@ export const warnTypeDetail = function(self, type, devId) {
     })
   })
 }
+
+export const cpuDetect = function(self) {
+  return new Promise((resolve, reject) => {
+    let vue = self
+    let domain = `https://store-sense-api-server.herokuapp.com/swMonitor/system`
+
+    vue.$http.get(domain).then((res) => {
+      resolve(res.body)
+    })
+  })
+}
+
+export const getProcessInfo = function(self) {
+  return new Promise((resolve, reject) => {
+    let vue = self
+    let domain = `https://store-sense-api-server.herokuapp.com/swMonitor/process`
+
+    vue.$http.get(domain).then((res) => {
+      resolve(res.body.plist)
+    })
+  })
+}
+
+export const killProcess = function(self, pid) {
+  return new Promise((resolve, reject) => {
+    let vue = self
+    let domain = 'https://store-sense-api-server.herokuapp.com/swMonitor/killProcess'
+
+    vue.$http.post(domain, {pid}).then((res) => {
+      if (res.body.result) {
+        resolve(true)
+      } else {
+        reject('Kill process request fail.')
+      }
+    })
+  })
+}

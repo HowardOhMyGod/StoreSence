@@ -6,17 +6,19 @@
       //- p.devType Touch-PC
     .infoBlock
       hostInfoBlock
-      periInfoBlock
-      img.operation(src="https://firebasestorage.googleapis.com/v0/b/storesense-1a3d1.appspot.com/o/%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86.png?alt=media&token=7d719beb-2336-4e9f-a895-5bd743c3c2ec")
+      controlBlock
+      warnHistory
 </template>
 
 <script>
 import hostInfoBlock from './hostInfo.vue'
-import periInfoBlock from './Peripheral.vue'
+import warnHistory from './warnHistory.vue'
+import controlBlock from './controlBlock.vue'
 export default {
   components: {
     hostInfoBlock,
-    periInfoBlock
+    warnHistory,
+    controlBlock
   }
 }
 </script>
