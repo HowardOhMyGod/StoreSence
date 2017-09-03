@@ -7,8 +7,9 @@
   .body
     .deviceInfo
       h4 設備資訊
-      p 設備類別 : {{deviceDetail.deviceType}}
+      //- p 設備類別 : {{deviceDetail.deviceType}}
       p 設備型號 : {{$route.params.device}}
+      p 設備編號 : {{deviceDetail.deviceNum}}
       p 設備名稱 : {{deviceDetail.deviceName}}
       p CPU使用率 : 50
       p RAM使用率 : 20
@@ -38,14 +39,17 @@ export default {
   },
   methods: {
     navigateDevMonitor() {
-      this.$router.push({path: `/device/detail/${this.$route.params.device}`})
+        this.$router.push({
+          path: `/device/detail/${this.$route.params.device}_${this.deviceDetail.deviceNum}`
+        })
     }
   },
   created() {
     // listen for open
+    let vue = this
     eventBus.$on('openControl', (deviceDetail) => {
-      this.deviceDetail = deviceDetail
-      this.detailOpen = true
+      vue.deviceDetail = deviceDetail
+      vue.detailOpen = true
     })
   }
 }

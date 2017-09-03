@@ -39,7 +39,8 @@ export const routes = [{
         component: DevicePage,
         children: [{
           path: 'detail/:name',
-          component: deviceInfo
+          component: deviceInfo,
+          props: true
         }]
     },{
         path: '*',

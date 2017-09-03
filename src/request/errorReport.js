@@ -77,3 +77,20 @@ export const killProcess = function(self, pid) {
     })
   })
 }
+
+export const getErrorHistory = function(self, model, num) {
+  return new Promise((resolve, reject) => {
+    let vue = self
+    let domain = `https://store-sense-api-server.herokuapp.com/errorReport`
+    domain += `?deviceModel=${model}&deviceNum=${num}`
+
+    vue.$http.get(domain).then((res) => {
+      if (res.body.devices.length > 0) {
+        resolve(res.body.devices)
+      } else {
+        reject('Request error Histroy fail.')
+      }
+    })
+
+  })
+}

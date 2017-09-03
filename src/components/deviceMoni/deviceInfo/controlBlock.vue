@@ -38,6 +38,8 @@ export default {
       },{
         'name': '硬體狀態'
       }, {
+        'name': '周邊設備'
+      },{
         'name': '系統保護'
       },{
         'name': '備份還原'
@@ -95,9 +97,7 @@ export default {
   },
   computed: {
     confirmBlockStyle() {
-      if (this.delProcessName.length > 11) {
-        return {'width': (this.delProcessName.length+5) +'%'}
-      }
+      return {'width': (this.delProcessName.length + 12) +'%'}
     }
   },
   mounted() {
@@ -173,10 +173,12 @@ export default {
         border: none
         border-collapse: collapse
         width: 100%
-        box-shadow: 0px 0px 2px rgba(black, 0.3)
+        // box-shadow: 0px 0px 2px rgba(black, 0.3)
         td, th
           text-align: left
           padding: 8px
+        th
+          border-top: 1px solid #dddddd
         td
           border-top: 1px solid #dddddd
           cursor: pointer

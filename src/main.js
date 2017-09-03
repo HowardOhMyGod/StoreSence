@@ -29,6 +29,11 @@ export const eventBus = new Vue({
     // pass dataBoard data
     passDataBoardData(data, type) {
       this.$emit('passData', data, type)
+    },
+    // pass device detail from detail menu to device monitoring
+    passDevDetail(devObj){
+      console.log(devObj)
+      this.$emit('passDevObj', devObj)
     }
   }
 })

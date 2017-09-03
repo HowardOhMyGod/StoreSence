@@ -11,16 +11,16 @@
         .status.data
           p(:style="manageStatStyle(device.manageStat)") {{manageStat(device.manageStat)}}
         .location.data {{device.location}}
-        .deviceType.data {{device.deviceModel}}
         .warnType.data {{device.errorType}}
         .sourceType.data {{device.sourceType}}
         .occurTime.data {{toDate(device.occurTime)}}
         .finishTime.data {{toDate(device.finishTime)}}
         .staff.data {{device.staff}}
+        .solveMsg.data {{device.solveMessage || '-'}}
 </template>
 
 <script>
-import {errorReq, cpuDetect} from '../../../request/errorReport'
+import {getErrorHistory, cpuDetect} from '../../../request/errorReport'
 import {dateOperate} from '../../../mixin/dateMixin'
 import {statOperate} from '../../../mixin/statMixin'
 export default {
@@ -28,12 +28,13 @@ export default {
   data() {
     return {
       warnList: [],
-      fields: ['處理狀態', '所在位置', '設備型號', '異常類別','通報類型', '發生時間',' 完成時間', '處理人員']
+      fields: ['處理狀態', '所在位置', '異常類別','通報類型', '發生時間',' 完成時間', '處理人員', '處理方式']
     }
   },
   mounted() {
-    errorReq(this).then((warnObj) => {
-      this.warnList = warnObj.touchPC
+    let device = this.$route.params.name.split('_')
+    getErrorHistory(this, device[0], device[1]).then((errorList) => {
+      this.warnList = errorList
     })
   }
 }

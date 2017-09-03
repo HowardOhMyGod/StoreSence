@@ -3,7 +3,7 @@
     .topMenuBar
       i(class="fa fa-angle-left" @click="$router.go(-1)")
       p.warnType(@click="$router.go(-1)") 回上一頁
-      //- p.devType Touch-PC
+      //- p.devType Touch-PC {{name}}
     .infoBlock
       hostInfoBlock
       controlBlock

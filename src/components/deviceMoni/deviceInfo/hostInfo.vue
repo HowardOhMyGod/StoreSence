@@ -60,11 +60,14 @@
 </template>
 
 <script>
+import {eventBus} from '../../../main'
 export default {
   data() {
     return {
       remOpen: false,
-      powerOpen: false
+      powerOpen: false,
+      deviceInfo: {},
+      hello: 'ee'
     }
   },
   methods: {
