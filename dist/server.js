@@ -1,12 +1,16 @@
 var express = require('express');
-var path = require('path');
-var serveStatic = require('serve-static');
-var history = require('connect-history-api-fallback')
-
 var app = express();
-app.use(history())
-app.use(serveStatic(__dirname));
-var port = process.env.PORT || 5000;
+var history = require('connect-history-api-fallback');
 
-app.listen(port);
-console.log('server started '+ port);
+app.use(history({
+// verbose: true
+}));
+
+app.use(express.static(__dirname));
+
+app.set('port', (process.env.PORT || 8080));
+
+app.listen(app.get('port'), () => {
+console.log(ENV: ${process.env.NODE_ENV});
+console.log(Derp is running at localhost: ${app.get('port')});
+});
