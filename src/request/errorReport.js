@@ -94,3 +94,19 @@ export const getErrorHistory = function(self, model, num) {
 
   })
 }
+
+export const devTypeError = function(self, devType) {
+  return new Promise((resolve, reject) => {
+    let vue = self
+    let domain = `https://store-sense-api-server.herokuapp.com/errorReport`
+    domain += `?devType=${devType}`
+
+    vue.$http.get(domain).then((res) => {
+      if (res.body.devices.length > 0) {
+        resolve(res.body.devices)
+      } else {
+        reject('Request error Histroy fail.')
+      }
+    })
+  })
+}

@@ -16,7 +16,7 @@
       hr
       .downBar
         .repairStatus
-          p.notyet 未處理 4
+          p.notyet 未處理
           p 處理中
           p 已完成
         .areaRoutes

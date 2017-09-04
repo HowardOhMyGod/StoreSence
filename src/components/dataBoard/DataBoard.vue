@@ -14,45 +14,52 @@
         .statusBar
           .all.status
             i(class="fa fa-circle")
-            p 總件數 : 5
+            p 總件數 : {{statCount.all}}
           .notFinish.status
             i(class="fa fa-exclamation-triangle")
-            p 未處理 : 5
+            p 未處理 : {{statCount.notyet}}
           .processing.status
             i(class="fa fa-spinner")
-            p 處理中 : 5
+            p 處理中 : {{statCount.pending}}
           .finish.status
             i(class="fa fa-check")
-            p 已處理 : 5
+            p 已處理 : {{statCount.finish}}
         .dataTableBlock
           .detailTable
             h4.title 問題設備列表 - {{warnType}}
             .fieldBlock
               h5.field(v-for="field in deviceFields") {{field}}
             .deviceList(v-for="device in boardData.devices" @click="toDeviceDetail(device.deviceModel)")
+              .status.data
+                p(:style="manageStatStyle(device.manageStat)") {{manageStat(device.manageStat)}}
               .devModel.data {{device.deviceModel}}
-              .occurTime.data {{device.occurTime}}
               .location.data {{device.location}}
+              .occurTime.data {{toDate(device.occurTime)}}
           .counterTable
             h4.title 門市異常次數
             .storeFieldBlock
               h5.storeField(v-for="field in storeFields") {{field}}
-            .storeList(v-for="store in boardData.stores" @click="toWarnPage()")
-              .store.sdata {{store.store}}
-              .counter.sdata {{store.times}}
+            .storeList(v-for="(times, store) in boardData.stores" @click="toWarnPage()")
+              .store.sdata {{store}}
+              .counter.sdata {{times}}
 </template>
 
 <script>
 import dataFilterBar from './Filterbar.vue'
 import Doughnut from './Doughnut.vue'
 import {eventBus} from '../../main'
+import {dateOperate} from '../../mixin/dateMixin'
+import {statOperate} from '../../mixin/statMixin'
+import {devTypeError} from '../../request/errorReport'
 export default {
+  mixins: [dateOperate, statOperate],
   data () {
     return {
-      deviceFields: ['設備型號', '發生時間', '所在位置'],
+      deviceFields: ['處理狀態', '設備型號', '所在位置', '發生時間'],
       storeFields: ['店家', '發生次數'],
       boardData: {},
-      warnType: ''
+      warnType: '',
+      statCount: {}
     }
   },
   methods: {
@@ -72,6 +79,20 @@ export default {
       this.boardData = data
       this.warnType = type
     })
+
+    devTypeError(this, 'TouchPC').then((devList) => {
+      this.statCount.all = devList.length
+      this.statCount.finish = devList.filter((el) => {
+        return el.manageStat == '1'
+      }).length
+      this.statCount.pending = devList.filter((el) => {
+        return el.manageStat == '0'
+      }).length
+      this.statCount.notyet = devList.filter((el) => {
+        return el.manageStat == '-1'
+      }).length
+
+    })
   }
 }
 </script>
@@ -80,6 +101,7 @@ export default {
   $colorLightBlue: #27A3DF
   $colorWhite: #fff
   $colorBlue: #F0FAFC
+  $colorDarkBlue: #2EA6E2
   *
     // border: solid 1px black
     position: relative
@@ -120,7 +142,7 @@ export default {
               padding: 5px 5px
               margin-bottom: 10px
               h5
-                width: 150px
+                flex: 1
                 font-size: 15px
                 font-weight: 600
                 margin: 0px
@@ -132,7 +154,16 @@ export default {
               padding: 6px 5px
               border-top: solid 1px rgba(black, 0.1)
               .data
-                width: 150px
+                flex: 1
+              .status
+                p
+                  padding: 2px 10px
+                  display: inline-block
+                  margin: 0px
+                  font-size: 14px
+                  background-color: $colorDarkBlue
+                  border-radius: 4px
+                  color: $colorWhite
             .deviceList:last-child
               border-bottom: solid 1px rgba(black, 0.1)
             .deviceList:nth-child(even)
