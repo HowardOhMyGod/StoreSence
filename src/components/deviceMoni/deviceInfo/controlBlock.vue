@@ -104,9 +104,12 @@ export default {
     // setInterval(() => {
     //   getProcessInfo(this).then((plist) => {
     //     this.plist = plist
-    //     console.log(this.plist)
     //   })
     // }, 3000)
+
+    getProcessInfo(this).then((plist) => {
+      this.plist = plist
+    })
   }
 }
 </script>
