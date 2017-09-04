@@ -101,10 +101,12 @@ export default {
     }
   },
   mounted() {
-    getProcessInfo(this).then((plist) => {
-      this.plist = plist
-      console.log(this.plist)
-    })
+    setInterval(() => {
+      getProcessInfo(this).then((plist) => {
+        this.plist = plist
+        console.log(this.plist)
+      })
+    }, 3000)
   }
 }
 </script>

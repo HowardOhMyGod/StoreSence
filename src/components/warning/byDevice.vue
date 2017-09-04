@@ -112,11 +112,11 @@ export default {
     })
 
     // detect CPU
-    // setInterval(() => {
-    //   cpuDetect(this).then((result) => {
-    //     console.log(result)
-    //   })
-    // }, 20000)
+    setInterval(() => {
+      cpuDetect(this).then((result) => {
+        console.log(result)
+      })
+    }, 20000)
   },
   created () {
     // listen for change source type from warning Type bar
