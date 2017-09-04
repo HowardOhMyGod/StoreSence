@@ -1,4 +1,4 @@
-const apiDomain = 'https://storesenseapi.wise-paas'
+const apiDomain = 'https://storesenseapi.wise-paas.com'
 // https://store-sense-api-server.herokuapp.com
 
 
