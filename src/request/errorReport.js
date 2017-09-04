@@ -1,7 +1,11 @@
+const apiDomain = 'https://storesenseapi.wise-paas'
+// https://store-sense-api-server.herokuapp.com
+
+
 export const errorReq = function (self) {
     return new Promise((resolve, reject) => {
         let vue = self
-        let domain = 'https://store-sense-api-server.herokuapp.com/errorReport'
+        let domain = `${apiDomain}/errorReport`
         let warnObj = {}
 
         vue.$http.get(domain).then((res) => {
@@ -22,7 +26,7 @@ export const errorReq = function (self) {
 export const warnTypeReq = function(self) {
   return new Promise((resolve, reject) => {
     let vue = self
-    let domain = 'https://store-sense-api-server.herokuapp.com/warnType'
+    let domain = `${apiDomain}/warnType`
 
     vue.$http.get(domain).then((res) => {
       resolve(res.body)
@@ -33,7 +37,7 @@ export const warnTypeReq = function(self) {
 export const warnTypeDetail = function(self, type, devId) {
   return new Promise((resolve, reject) => {
     let vue = self
-    let domain = `https://store-sense-api-server.herokuapp.com/warnTypeDetail?type=${type}&devId=${devId}`
+    let domain = `${apiDomain}/warnTypeDetail?type=${type}&devId=${devId}`
 
     vue.$http.get(domain).then((res) => {
       resolve(res.body)
@@ -44,7 +48,7 @@ export const warnTypeDetail = function(self, type, devId) {
 export const cpuDetect = function(self) {
   return new Promise((resolve, reject) => {
     let vue = self
-    let domain = `https://store-sense-api-server.herokuapp.com/swMonitor/system`
+    let domain = `${apiDomain}/swMonitor/system`
 
     vue.$http.get(domain).then((res) => {
       resolve(res.body)
@@ -55,7 +59,7 @@ export const cpuDetect = function(self) {
 export const getProcessInfo = function(self) {
   return new Promise((resolve, reject) => {
     let vue = self
-    let domain = `https://store-sense-api-server.herokuapp.com/swMonitor/process`
+    let domain = `${apiDomain}/swMonitor/process`
 
     vue.$http.get(domain).then((res) => {
       resolve(res.body.plist)
@@ -66,7 +70,7 @@ export const getProcessInfo = function(self) {
 export const killProcess = function(self, pid) {
   return new Promise((resolve, reject) => {
     let vue = self
-    let domain = 'https://store-sense-api-server.herokuapp.com/swMonitor/killProcess'
+    let domain = `${apiDomain}/swMonitor/killProcess`
 
     vue.$http.post(domain, {pid}).then((res) => {
       if (res.body.result) {
@@ -81,7 +85,7 @@ export const killProcess = function(self, pid) {
 export const getErrorHistory = function(self, model, num) {
   return new Promise((resolve, reject) => {
     let vue = self
-    let domain = `https://store-sense-api-server.herokuapp.com/errorReport`
+    let domain = `${apiDomain}/errorReport`
     domain += `?deviceModel=${model}&deviceNum=${num}`
 
     vue.$http.get(domain).then((res) => {
@@ -98,7 +102,7 @@ export const getErrorHistory = function(self, model, num) {
 export const devTypeError = function(self, devType) {
   return new Promise((resolve, reject) => {
     let vue = self
-    let domain = `https://store-sense-api-server.herokuapp.com/errorReport`
+    let domain = `${apiDomain}/errorReport`
     domain += `?devType=${devType}`
 
     vue.$http.get(domain).then((res) => {
