@@ -2,14 +2,14 @@ export const dateOperate = {
   methods: {
     toDate(mileSecond) {
       if (mileSecond !== '-') {
-        let date = new Date(mileSecond).toLocaleString()
-        let dateTemp = date.split(',')[0]
-        dateTemp = dateTemp.split('/')
-        date = `${dateTemp[2]}-${dateTemp[0]}-${dateTemp[1]}`
+        let date = new Date(mileSecond)
+        let month = date.getMonth() + 1
+        let day = date.getDate()
+        let hours = date.getHours()
+        let min = date.getMinutes()
+        let year = date.getFullYear()
 
-        let time = new Date(mileSecond).toLocaleTimeString().split(' ')[0]
-        time = time.split(':')[0] + ':' + time.split(':')[1]
-        return `${date} ${time}`
+        return `${year}-${month}-${day} ${hours}:${min}`
       } else {
         return '-'
       }
