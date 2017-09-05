@@ -110,13 +110,6 @@ export default {
       this.groups[0].devices = warnObj.pos
       this.groups[1].devices = warnObj.touchPC
     })
-
-    // detect CPU
-    // setInterval(() => {
-    //   cpuDetect(this).then((result) => {
-    //     console.log(result)
-    //   })
-    // }, 20000)
   },
   created () {
     // listen for change source type from warning Type bar

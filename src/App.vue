@@ -12,6 +12,14 @@
     components: {
       sideMenu: Sidemenu,
       mainView: Mainview
+    },
+    mounted() {
+      // detect CPU
+      // setInterval(() => {
+      //   cpuDetect(this).then((result) => {
+      //     console.log(result)
+      //   })
+      // }, 20000)
     }
   }
 </script>
