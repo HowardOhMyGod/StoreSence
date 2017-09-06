@@ -7,6 +7,7 @@
 <script>
   import Sidemenu from './components/Sidemenu.vue'
   import Mainview from './components/Mainview.vue'
+  import {cpuDetect} from './request/errorReport'
 
   export default {
     components: {
@@ -15,11 +16,21 @@
     },
     mounted() {
       // detect CPU
-      // setInterval(() => {
-      //   cpuDetect(this).then((result) => {
-      //     console.log(result)
-      //   })
-      // }, 20000)
+      let sysDetectInterval = setInterval(() => {
+        cpuDetect(this).then((result) => {
+          console.log(result.monitor)
+          if (result.monitor.cpu > 90) {
+            console.log('Excess to clear!')
+            clearInterval(sysDetectInterval)
+          }
+        })
+      }, 10000)
+
+
+
+
+
+
     }
   }
 </script>
