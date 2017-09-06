@@ -9,23 +9,23 @@
       select#selectDistrict(name="district" v-model="selectArea.selectDistrict")
         option(v-for="(district, id) in districtList", :value="id") {{district.name}}
       select#selectStore(name="store", v-model="selectArea.selectStore")
-        option(v-for="(store, id) in storeList", :value="id") {{store}}
+        option(v-for="(store, id) in storeList") {{store}}
     .deviceSelect.selBar
       h4.title 設備選擇
       select
-        option(value='' selected) 設備類型
+        option(value='' v-for="device in deviceTypes") {{device}}
       select
-        option(value='' selected) 設備型號
+        option(value='' selected) 所有型號
       select
-        option(value='' selected) 設備名稱
+        option(value='' selected) 所有名稱
     .warningType.selBar
       h4.title 異常類別
       select
-        option(value='' selected) 全部異常
+        option(value='' v-for="type in errorTypes") {{type}}
     .dateRange.selBar
       h4.title 時間範圍
       select
-        option(value='' selected) 日
+        option(value='' v-for="time in timeSeries") {{time}}
       select
         option(value='' selected) 2017-08-03
     .sumitBtn
@@ -35,7 +35,14 @@
 <script>
 import {areaFilterMixin} from '../../mixin/areaFilter'
 export default {
-  mixins: [areaFilterMixin]
+  mixins: [areaFilterMixin],
+  data() {
+    return {
+      deviceTypes: ['Touch-PC', 'POS', 'SignageBox', 'MPOS'],
+      errorTypes: ['所有異常', '觸控不準', '觸控無反應', '螢幕黑屏', '軟體當機', 'CPU異常', '停留在windows畫面'],
+      timeSeries: ['日', '週', '月', '年']
+    }
+  }
 }
 </script>
 

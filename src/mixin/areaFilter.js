@@ -7,7 +7,7 @@ export const areaFilterMixin = {
         selectCountry: 0,
         selectCity: 0,
         selectDistrict: 0,
-        selectStore: '文德店'
+        selectStore: '所有店家'
       },
       areaFilters
     }

@@ -25,19 +25,19 @@
       .statusListBlock.info
         .power.data
           span.title 電源狀態
-          span : 離線
+          span : 上線
         .cpu.data
           span.title CPU:
-          span  15%
+          span  {{sys.cpu}}%
         .ram.data
           span.title RAM:
-          span  45%
+          span  {{sys.ram}}%
         .disk.data
           span.title 硬碟狀態：
           span 警告
         .net.data
           span.title 網路狀態：
-          span S/0 kbps R/0 kbps
+          span S/{{net.s}} kbps R/{{net.r}} kbps
         .ip.data
           span.title IP位置:
           span 172.16.17.36
@@ -61,13 +61,22 @@
 
 <script>
 import {eventBus} from '../../../main'
+import {sysInfo} from '../../../mixin/sys'
 export default {
+  mixins: [sysInfo],
   data() {
     return {
       remOpen: false,
       powerOpen: false,
       deviceInfo: {},
-      hello: 'ee'
+      sys: {
+        cpu: 0,
+        ram: 0
+      },
+      net: {
+        s: 0,
+        r: 0
+      }
     }
   },
   methods: {

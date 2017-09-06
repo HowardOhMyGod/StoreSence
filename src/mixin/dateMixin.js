@@ -9,6 +9,10 @@ export const dateOperate = {
         let min = date.getMinutes()
         let year = date.getFullYear()
 
+        if (min - 10 < 0) {
+          min = `0${min}`
+        }
+
         return `${year}-${month}-${day} ${hours}:${min}`
       } else {
         return '-'

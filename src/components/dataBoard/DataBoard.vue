@@ -29,7 +29,7 @@
             h4.title 問題設備列表 - {{warnType}}
             .fieldBlock
               h5.field(v-for="field in deviceFields") {{field}}
-            .deviceList(v-for="device in boardData.devices" @click="toDeviceDetail(device.deviceModel)")
+            .deviceList(v-for="device in boardData.devices" @click="toDeviceDetail(device.deviceModel, device.deviceNum)")
               .status.data
                 p(:style="manageStatStyle(device.manageStat)") {{manageStat(device.manageStat)}}
               .devModel.data {{device.deviceModel}}
@@ -63,8 +63,8 @@ export default {
     }
   },
   methods: {
-    toDeviceDetail(device) {
-      this.$router.push({path: `/device/detail/${device}`})
+    toDeviceDetail(model, num) {
+      this.$router.push({path: `/device/detail/${model}_${num}`})
     },
     toWarnPage() {
       this.$router.push({path: `/warning/device`})

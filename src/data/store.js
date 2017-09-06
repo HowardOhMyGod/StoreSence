@@ -2,6 +2,12 @@ export const areaFilters = {
     countrys: [{
         name: '台灣',
         citys: [{
+          name: '所有縣市',
+          districts: [{
+            name: '所有地區',
+            stores: ['所有店家']
+          }]
+        },{
             name: '台北市',
             districts: [{
                 name: '內湖區',

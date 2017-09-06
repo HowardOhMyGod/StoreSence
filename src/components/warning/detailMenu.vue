@@ -11,8 +11,8 @@
       p 設備型號 : {{$route.params.device}}
       p 設備編號 : {{deviceDetail.deviceNum}}
       p 設備名稱 : {{deviceDetail.deviceName}}
-      p CPU使用率 : 50
-      p RAM使用率 : 20
+      p CPU使用率 : {{sys.cpu}}%
+      p RAM使用率 : {{sys.ram}}%
     .remoteControl
       h4 遠端操作
       .powerActions
@@ -28,7 +28,9 @@
 
 <script>
 import {eventBus} from '../../main'
+import {sysInfo} from '../../mixin/sys'
 export default {
+  mixins: [sysInfo],
   data() {
     return {
       powerActions: ['開機', '重開機', '關機'],

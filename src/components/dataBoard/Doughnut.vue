@@ -170,10 +170,14 @@ export default {
 			window.myDoughnut = new Chart(ctx, config)
 
 			this.canvasListen()
+
+      let key = _.findKey(errTypeTable, (el) => {
+        return el == Object.keys(this.typeData)[0]
+      })
 			eventBus.passDataBoardData({
 				devices: this.typeData[Object.keys(this.typeData)[0]],
         stores: this.filterStore(this.typeData[Object.keys(this.typeData)[0]])
-			}, _.findKey(errTypeTable, errTypeTable[Object.keys(this.typeData)[0]]))
+			}, key)
 		})
 
 	}

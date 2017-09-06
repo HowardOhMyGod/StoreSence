@@ -14,7 +14,7 @@
 						.deviceType.data {{device.deviceModel}}
 						.counter.data {{device[errorTypeTable[errorType.name]]}}
 						.location.data {{device.location}}
-						.occurTime.data {{new Date().getMonth() + '/' + new Date().getDate()}}
+						.occurTime.data {{today()}}
 						i(class="fa fa-angle-right")
 		.row
 			.warnMsgBlock(v-for="errorType in rightColData")
@@ -29,16 +29,18 @@
 						.deviceType.data {{device.deviceModel}}
 						.counter.data {{device[errorTypeTable[errorType.name]]}}
 						.location.data {{device.location}}
-						.occurTime.data {{new Date().getMonth() + '/' + new Date().getDate()}}
+						.occurTime.data {{today()}}
 						i(class="fa fa-angle-right")
 </template>
 
 <script>
 // import {warnMessage} from '../../../data/warnMsg'
+import {dateOperate} from '../../../mixin/dateMixin'
 import {
 	warnTypeReq
 } from '../../../request/errorReport'
 export default {
+	mixins: [dateOperate],
 	data() {
 		return {
 			fieldNames: ['設備型號', '發生次數', '所在位置', '發生時間'],
@@ -60,6 +62,10 @@ export default {
 			this.$router.push({
 				path: `/warning/warnMsg/${errorType}/${deviceModel}`
 			})
+		},
+		today(){
+			let today = new Date()
+			return this.toDate(today)
 		}
 	},
 	mounted() {

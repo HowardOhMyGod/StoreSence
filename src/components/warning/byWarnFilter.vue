@@ -20,7 +20,7 @@
           option(value='' v-for="type in deviceTypeList") {{type}}
         span 異常類別 :
         select
-          option(value='' selected)  所有異常
+          option(value='' v-for="type in errorTypes")  {{type}}
       .areaRoutes
         p {{currentStorePath}}
       //- hr
@@ -39,7 +39,8 @@ export default {
   data () {
     return {
       filterBarBlockOpen: null,
-      deviceTypeList: ['所有設備','UPOS', 'Touch-PC', 'MPOS', 'Signage Box']
+      deviceTypeList: ['所有設備','UPOS', 'Touch-PC', 'MPOS', 'Signage Box'],
+      errorTypes: ['所有異常', '觸控不準', '觸控無反應', '螢幕黑屏', '軟體當機', 'CPU異常', '停留在windows畫面']
     }
   },
   computed: {

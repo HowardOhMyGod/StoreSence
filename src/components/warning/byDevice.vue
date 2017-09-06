@@ -4,6 +4,8 @@
     .container(:style="filterMenuStyle")
       .leftBlock
         .row
+          transition(name="fade")
+            .emptyMsg(v-if="groups[1].devices.length < 1 && groups[0].devices.length < 1") 目前設備皆正常運作 :)
           .warningListBlock.col-md-12.col-sm-9(v-for="(group, groupId) in groups")
             .floor(v-if="group.devices.length > 0")
               h3 {{group.name}}
@@ -35,8 +37,8 @@
           p 設備類別 : {{selectedDev.deviceType}}
           p 設備型號 : {{selectedDev.deviceModel}}
           p 設備名稱 : {{selectedDev.deviceName}}
-          p CPU使用率 : 20%
-          p RAM使用率 : 30%
+          p CPU使用率 : {{sys.cpu}}%
+          p RAM使用率 : {{sys.ram}}%
         .remoteControl
           h4 遠端操作
           .powerActions
@@ -58,8 +60,10 @@ import FilterBar from './byDeviceFilter.vue'
 import {errorReq, cpuDetect} from '../../request/errorReport'
 import {dateOperate} from '../../mixin/dateMixin'
 import {statOperate} from '../../mixin/statMixin'
+import {sysInfo} from '../../mixin/sys'
+
 export default {
-  mixins: [dateOperate, statOperate],
+  mixins: [dateOperate, statOperate, sysInfo],
   data() {
     return {
       fields: ['處理狀態', '所在位置', '設備型號', '異常類別','通報類型', '發生時間',' 完成時間', '處理人員'],
@@ -223,6 +227,16 @@ export default {
         background-color: grey
         .row
           background-color: $colorGray
+          .emptyMsg
+            font-size: 30px
+            font-weight: 600
+            position: fixed
+            left: 50%
+            transform: translateX(-40%)
+            top: 50%
+            z-index: 3000
+            padding: 20px 40px
+            color: rgba(black, 0.6)
           .deviceDetail
             position: fixed
             right: 2%
