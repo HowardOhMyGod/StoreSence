@@ -24,7 +24,7 @@
             clearInterval(sysDetectInterval)
           }
         })
-      }, 10000)
+      }, 6000)
 
 
 
