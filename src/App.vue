@@ -19,7 +19,7 @@
       let sysDetectInterval = setInterval(() => {
         cpuDetect(this).then((result) => {
           console.log(result.monitor)
-          if (result.monitor.cpu > 90) {
+          if (result.monitor.cpu > 70) {
             console.log('Excess to clear!')
             clearInterval(sysDetectInterval)
           }
