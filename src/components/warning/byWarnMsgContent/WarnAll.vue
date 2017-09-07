@@ -35,7 +35,9 @@
 
 <script>
 // import {warnMessage} from '../../../data/warnMsg'
-import {dateOperate} from '../../../mixin/dateMixin'
+import {
+	dateOperate
+} from '../../../mixin/dateMixin'
 import {
 	warnTypeReq
 } from '../../../request/errorReport'
@@ -63,7 +65,7 @@ export default {
 				path: `/warning/warnMsg/${errorType}/${deviceModel}`
 			})
 		},
-		today(){
+		today() {
 			let today = new Date()
 			return this.toDate(today)
 		}
@@ -71,7 +73,7 @@ export default {
 	mounted() {
 		warnTypeReq(this).then((res) => {
 			this.errMessages = res.messages
-      console.log(this.errMessages)
+			console.log(this.errMessages)
 
 			// split left and right
 			for (let i = 0; i < this.errMessages.length; i++) {

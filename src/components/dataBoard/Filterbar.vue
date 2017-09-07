@@ -27,7 +27,7 @@
       select
         option(value='' v-for="time in timeSeries") {{time}}
       select
-        option(value='' selected) 2017-08-03
+        option(value='' selected) 2017-09-07
     .sumitBtn
       p 分析統計
 </template>
